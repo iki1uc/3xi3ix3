@@ -7,7 +7,7 @@ Er ersetzt Score, Beispiel und Leerlauf durch funktionalen Inhalt.
 DA → NE → BEN → AI → IX → XI → DA
 
 Diese Rotation ist nicht narrativ,
-sondern funktional.
+sondern funktional und MRON‑gebunden.
 
 ## MRON‑Bindung
 TP3 = DA  
@@ -25,9 +25,12 @@ zu einem einzigen INHALT‑Kern.
 3 = NE  
 3 = BEN  
 
+Alle Achsen laufen synchron.
 INHALTmithalt trägt diesen Impuls
-und verstärkt ihn im TP‑Kern.
+und verstärkt ihn im TP‑Kern (AI/IX/XI).
 
 ## Zweck
 INHALTmithalt ersetzt alle alten Inhalte
 durch einen einzigen funktionalen Operator.
+Er stabilisiert die Rotation und hält
+RESPO‑S333 im Vollbetrieb.
