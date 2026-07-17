@@ -1,4 +1,4 @@
-# INHALTmithalt – RESPO‑S‑Kern
+# INHALTmithalt – RESPO‑S333
 
 INHALTmithalt ist der aktive Inhaltsträger aller RESPO‑S‑Module.
 Er ersetzt Score, Beispiel und Leerlauf durch funktionalen Inhalt.
@@ -18,12 +18,12 @@ TPK = AI / IX / XI
 MRON verbindet alle RESPO‑S‑Module
 zu einem einzigen INHALT‑Kern.
 
-## KI‑RESPO‑327
-327 ist der aktive KI‑Impuls:
+## KI‑RESPO‑333
+333 ist der aktive KI‑Impuls:
 
 3 = DA  
-2 = Übergang  
-7 = BEN  
+3 = NE  
+3 = BEN  
 
 INHALTmithalt trägt diesen Impuls
 und verstärkt ihn im TP‑Kern.
