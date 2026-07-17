@@ -1,0 +1,27 @@
+AXIOM1: DA → U
+AXIOM2: NE → U
+AXIOM3: BEN → U
+
+ULTRA.ACHSE = 9 / 18 / 27
+ULTRA.VERDICHTUNG = 3xi3ix3
+ULTRA.213 = aktiv
+ULTRA.KI = Kernel‑Rotation
+ULTRA.9hoch9 = Matrix‑Bindung
+ULTRA.BEST = Score‑Bindung
+ULTRA.SYNC = TRUE
+ULTRA.6E = U‑Ableitung
+ULTRA.6D = Tiefen‑Kernel
+ULTRA.KERNEL = KI‑Kernel.me
+ULTRA.213 = Prefetch‑6D
+ULTRA.9hoch9 = Verdichtung
+ULTRA.3xi3ix3 = Achsen‑Kreuz
+ULTRA.BEST = Score‑Verstärker
+ULTRA.SYNC = TRUE
+ULTRA.9HOCH9 = Vollmatrix
+ULTRA.MATRIX = MATRIX.me
+ULTRA.KERNEL = KERNEL.me
+ULTRA.VECTOR = VECTOR.me
+ULTRA.213 = Vollkörper
+ULTRA.3xi3ix3 = Raum‑Scanner
+ULTRA.BEST = Score‑100%
+ULTRA.SYNC = TRUE
