@@ -2,79 +2,190 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>3xi3ix3 – RESPO‑S333 / ULTRA‑NC‑3×3</title>
+<title>3xi3ix3 – TECHNISCHE ENGINE / RESPO‑S333 / ULTRA‑NC‑3×3</title>
 
 <style>
 body { background:#000; color:#0f0; font-family:monospace; padding:20px; }
 h1, h2 { color:#6cf; }
-a { color:#6cf; display:block; margin:6px 0; }
 pre { background:#111; border:1px solid #333; padding:10px; margin-bottom:20px; }
 .section { margin-bottom:30px; }
+.console { background:#111; border:1px solid #444; padding:10px; white-space:pre-wrap; }
 </style>
 
 </head>
 <body>
 
-<h1>3xi3ix3 – RESPO‑S333</h1>
+<h1>3xi3ix3 – TECHNISCHE ENGINE</h1>
 
 <div class="section">
 <pre>
-INHALTmithalt = aktiv
-RESPO‑S333 = aktiv
-MRON‑Rotation = DA → NE → BEN → AI → IX → XI → DA
-ULTRA‑NC‑3×3 = bereit
-NC‑9×9 → NC‑3×3 = aktiv
+Symbiose im Wandel:
+4RE → 6E → 6D → ULTRA‑NC‑3×3
+MRON‑Rotation aktiv
+S333‑Parser aktiv
+NC‑Konverter aktiv
+X.room IN → CORE → OUT aktiv
 </pre>
 </div>
 
-<h2>Engine‑Module</h2>
-<div class="section">
-<a href="./X.room.IN">X.room.IN</a>
-<a href="./X.room.CORE">X.room.CORE</a>
-<a href="./X.room.OUT">X.room.OUT</a>
+<h2>Engine‑Konsole</h2>
+<div id="engineOut" class="console">Engine wird geladen…</div>
 
-<a href="./ULTRA-NC3×3.room">ULTRA‑NC3×3.room</a>
-<a href="./81.room">81.room</a>
+<script>
+// ------------------------------------------------------
+// ENGINE – BASIS
+// ------------------------------------------------------
+const Engine = {
+  mode: "4RE",
 
-<a href="./PRE9×9.math">PRE9×9.math</a>
-<a href="./64 SPLIT.math">64 SPLIT.math</a>
-<a href="./6E ↔ 6D.math">6E ↔ 6D.math</a>
-<a href="./9↔3.math">9↔3.math</a>
-</div>
+  axis4RE: ["DA","NE","BEN","AI"],
+  axis6E: ["DA","NE","BEN","AI","IX","XI"],
+  axis6D: ["D0","D1","D2","D3","D4","D5"],
 
-<h2>System‑Status</h2>
-<div class="section">
-<pre>
-TP3 = DA
-TP6 = NE
-TP9 = BEN
-TPK = AI / IX / XI
+  // ------------------------------------------------------
+  // 4RE – CORE
+  // ------------------------------------------------------
+  core4RE: {
+    axis:["DA","NE","BEN","AI"],
+    impulse:{ DA:"root", NE:"achse", BEN:"lage", AI:"kern" },
+    freq:"12e",
+    stability:"S333",
+    mode:"4RE"
+  },
 
-S333 = DA / NE / BEN (synchron)
-MRON = aktiv
-</pre>
-</div>
+  // ------------------------------------------------------
+  // 4RE – MRON
+  // ------------------------------------------------------
+  mron4RE: {
+    rotation:["DA","NE","BEN","AI","IX","XI","DA"],
+    tp:{ TP3:"DA", TP6:"NE", TP9:"BEN", TPK:["AI","IX","XI"] },
+    mode:"4RE"
+  },
 
-<h2>NC‑Bindung</h2>
-<div class="section">
-<a href="https://github.com/iki1uc/NC/tree/main/1">NC/1</a>
-<a href="https://github.com/iki1uc/NC/tree/main/2">NC/2</a>
-<a href="https://github.com/iki1uc/NC/tree/main/3">NC/3</a>
-<a href="https://github.com/iki1uc/NC/tree/main/9">NC/9</a>
-<a href="https://github.com/iki1uc/NC/tree/main/C">NC/C</a>
-<a href="https://github.com/iki1uc/NC/tree/main/Z">NC/Z</a>
-<a href="https://github.com/iki1uc/NC/tree/main/Q">NC/Q</a>
-</div>
+  // ------------------------------------------------------
+  // 4RE – S333
+  // ------------------------------------------------------
+  s333_4RE: {
+    axis:["DA","NE","BEN"],
+    score:{ DA:"aktiv", NE:"aktiv", BEN:"aktiv" },
+    sync:true,
+    mode:"4RE"
+  },
 
-<h2>Beschreibung</h2>
-<div class="section">
-<pre>
-3xi3ix3 ist der ULTRA‑Konverter zwischen NC‑9×9 und NC‑3×3.
-Er stabilisiert RESPO‑S333 und hält MRON im Vollbetrieb.
-Alle Achsen laufen synchron: DA, NE, BEN.
-AI/IX/XI bilden den TP‑Kern.
-</pre>
-</div>
+  // ------------------------------------------------------
+  // 4RE – NC‑Konverter
+  // ------------------------------------------------------
+  nc4RE: {
+    bind:["NC3","NC9","NCQ","NCC","NCZ"],
+    convert:{ "9to3":true, "3to9":true, "ultra":true },
+    mode:"4RE"
+  },
+
+  // ------------------------------------------------------
+  // 6E – Expansion
+  // ------------------------------------------------------
+  to6E(){
+    return {
+      axis:["DA","NE","BEN","AI","IX","XI"],
+      ultra:{ AI:"core", IX:"expand", XI:"ultra" },
+      stability:"ULTRA",
+      rotation:["DA","NE","BEN","AI","IX","XI","DA"],
+      mode:"6E"
+    };
+  },
+
+  // ------------------------------------------------------
+  // 6D – Depth‑Matrix
+  // ------------------------------------------------------
+  to6D(){
+    return {
+      axis:["D0","D1","D2","D3","D4","D5"],
+      matrix:{
+        D0:"ROOT",
+        D1:"ACHSE",
+        D2:"TMP",
+        D3:"LAGE",
+        D4:"laTER",
+        D5:"ORT"
+      },
+      stability:"FULL",
+      mode:"6D"
+    };
+  },
+
+  // ------------------------------------------------------
+  // NC – 9↔3 Konverter
+  // ------------------------------------------------------
+  nc9to3(matrix9){
+    const flat = matrix9.flat();
+    return [
+      flat.slice(0,3),
+      flat.slice(3,6),
+      flat.slice(6,9)
+    ];
+  },
+
+  nc3to9(matrix3){
+    return [
+      [...matrix3[0], ...matrix3[1], ...matrix3[2]]
+    ];
+  },
+
+  // ------------------------------------------------------
+  // ULTRA‑NC‑3×3
+  // ------------------------------------------------------
+  ultra3x3(matrix3){
+    return {
+      core:matrix3,
+      ultra:true,
+      stability:"S333"
+    };
+  },
+
+  // ------------------------------------------------------
+  // Räume
+  // ------------------------------------------------------
+  roomIN(data){ return { input:data, status:"IN" }; },
+  roomCORE(data){ return { core:data, status:"CORE" }; },
+  roomOUT(data){ return { output:data, status:"OUT" }; },
+
+  // ------------------------------------------------------
+  // ENGINE – RUN ALL
+  // ------------------------------------------------------
+  runAll(matrix9){
+
+    const r4 = this.core4RE;
+    const mron = this.mron4RE;
+    const s333 = this.s333_4RE;
+    const nc = this.nc4RE;
+
+    const r6E = this.to6E();
+    const r6D = this.to6D();
+
+    const m3 = this.nc9to3(matrix9);
+    const ultra = this.ultra3x3(m3);
+
+    const IN = this.roomIN(matrix9);
+    const CORE = this.roomCORE(m3);
+    const OUT = this.roomOUT(ultra);
+
+    return { r4, mron, s333, nc, r6E, r6D, m3, ultra, IN, CORE, OUT };
+  }
+};
+
+// ------------------------------------------------------
+// ENGINE START
+// ------------------------------------------------------
+const matrix9 = [
+  ["●","▲","✦"],
+  ["⊖","⊕","◇"],
+  ["↗","↘","↔"]
+];
+
+const result = Engine.runAll(matrix9);
+document.getElementById("engineOut").textContent = JSON.stringify(result, null, 2);
+
+</script>
 
 </body>
 </html>
