@@ -2,190 +2,116 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>3xi3ix3 – TECHNISCHE ENGINE / RESPO‑S333 / ULTRA‑NC‑3×3</title>
+<title>3xi3ix3 · TECHNISCHE ENGINE / PX‑PC‑GHOST / ULTRA‑NC‑3×3</title>
 
 <style>
-body { background:#000; color:#0f0; font-family:monospace; padding:20px; }
+body { background:#000; color:#0f0; font-family:Consolas; padding:20px; }
 h1, h2 { color:#6cf; }
 pre { background:#111; border:1px solid #333; padding:10px; margin-bottom:20px; }
-.section { margin-bottom:30px; }
 .console { background:#111; border:1px solid #444; padding:10px; white-space:pre-wrap; }
+canvas { background:#111; border:1px solid #333; margin-top:20px; }
 </style>
-
 </head>
+
 <body>
 
-<h1>3xi3ix3 – TECHNISCHE ENGINE</h1>
+<h1>3xi3ix3 · TECHNISCHE ENGINE</h1>
 
-<div class="section">
 <pre>
-Symbiose im Wandel:
-4RE → 6E → 6D → ULTRA‑NC‑3×3
-MRON‑Rotation aktiv
-S333‑Parser aktiv
-NC‑Konverter aktiv
-X.room IN → CORE → OUT aktiv
+CORE     = iki1uc
+AXES     = PX / PC / GHOST
+LAW      = 6D
+ENERGY   = 6E
+FORM     = Tri‑Hexa‑Orbit
+STATE    = ACTIVE
+READY    = 100%
 </pre>
-</div>
 
 <h2>Engine‑Konsole</h2>
 <div id="engineOut" class="console">Engine wird geladen…</div>
 
+<h2>Tri‑Hexa‑Orbit Renderer</h2>
+<canvas id="orbitCanvas" width="500" height="500"></canvas>
+
 <script>
-// ------------------------------------------------------
-// ENGINE – BASIS
-// ------------------------------------------------------
+// ======================================================
+// 3xi3ix3 ENGINE BASIS
+// ======================================================
 const Engine = {
-  mode: "4RE",
 
-  axis4RE: ["DA","NE","BEN","AI"],
-  axis6E: ["DA","NE","BEN","AI","IX","XI"],
-  axis6D: ["D0","D1","D2","D3","D4","D5"],
+  // PX / PC / GHOST – 3 Geräte
+  devices: ["PX","PC","GHOST"],
 
-  // ------------------------------------------------------
-  // 4RE – CORE
-  // ------------------------------------------------------
-  core4RE: {
-    axis:["DA","NE","BEN","AI"],
-    impulse:{ DA:"root", NE:"achse", BEN:"lage", AI:"kern" },
-    freq:"12e",
-    stability:"S333",
-    mode:"4RE"
-  },
-
-  // ------------------------------------------------------
-  // 4RE – MRON
-  // ------------------------------------------------------
-  mron4RE: {
-    rotation:["DA","NE","BEN","AI","IX","XI","DA"],
-    tp:{ TP3:"DA", TP6:"NE", TP9:"BEN", TPK:["AI","IX","XI"] },
-    mode:"4RE"
-  },
-
-  // ------------------------------------------------------
-  // 4RE – S333
-  // ------------------------------------------------------
-  s333_4RE: {
-    axis:["DA","NE","BEN"],
-    score:{ DA:"aktiv", NE:"aktiv", BEN:"aktiv" },
-    sync:true,
-    mode:"4RE"
-  },
-
-  // ------------------------------------------------------
-  // 4RE – NC‑Konverter
-  // ------------------------------------------------------
-  nc4RE: {
-    bind:["NC3","NC9","NCQ","NCC","NCZ"],
-    convert:{ "9to3":true, "3to9":true, "ultra":true },
-    mode:"4RE"
-  },
-
-  // ------------------------------------------------------
-  // 6E – Expansion
-  // ------------------------------------------------------
-  to6E(){
+  // ======================================================
+  // SLIDE – Achsenverschiebung
+  // ======================================================
+  slide(pos){
     return {
-      axis:["DA","NE","BEN","AI","IX","XI"],
-      ultra:{ AI:"core", IX:"expand", XI:"ultra" },
-      stability:"ULTRA",
-      rotation:["DA","NE","BEN","AI","IX","XI","DA"],
-      mode:"6E"
-    };
-  },
-
-  // ------------------------------------------------------
-  // 6D – Depth‑Matrix
-  // ------------------------------------------------------
-  to6D(){
-    return {
-      axis:["D0","D1","D2","D3","D4","D5"],
-      matrix:{
-        D0:"ROOT",
-        D1:"ACHSE",
-        D2:"TMP",
-        D3:"LAGE",
-        D4:"laTER",
-        D5:"ORT"
+      vec:{
+        x: pos.x * 0.33,
+        y: pos.y * 0.66,
+        z: pos.z * 0.99
       },
-      stability:"FULL",
-      mode:"6D"
+      axis:"SLIDE"
     };
   },
 
-  // ------------------------------------------------------
-  // NC – 9↔3 Konverter
-  // ------------------------------------------------------
-  nc9to3(matrix9){
-    const flat = matrix9.flat();
-    return [
-      flat.slice(0,3),
-      flat.slice(3,6),
-      flat.slice(6,9)
-    ];
-  },
+  // ======================================================
+  // WETTE – Stabilitätsbewertung
+  // ======================================================
+  wette(scene){
+    const score =
+      (scene.atom.length % 9) +
+      (scene.qsxi.tokio.x % 7) +
+      (scene.singular.radius % 5);
 
-  nc3to9(matrix3){
-    return [
-      [...matrix3[0], ...matrix3[1], ...matrix3[2]]
-    ];
-  },
-
-  // ------------------------------------------------------
-  // ULTRA‑NC‑3×3
-  // ------------------------------------------------------
-  ultra3x3(matrix3){
     return {
-      core:matrix3,
-      ultra:true,
-      stability:"S333"
+      score,
+      verdict: score > 10 ? "ULTRA‑STABIL" : "INSTABIL",
+      axis:"WETTE"
     };
   },
 
-  // ------------------------------------------------------
-  // Räume
-  // ------------------------------------------------------
-  roomIN(data){ return { input:data, status:"IN" }; },
-  roomCORE(data){ return { core:data, status:"CORE" }; },
-  roomOUT(data){ return { output:data, status:"OUT" }; },
+  // ======================================================
+  // PX‑Modul
+  // ======================================================
+  PX(frame){
+    return {
+      axis:"PX",
+      code: frame.pxCode,
+      impulse:"PX‑ROOT",
+      state:"ACTIVE"
+    };
+  },
 
-  // ------------------------------------------------------
-  // ENGINE – RUN ALL
-  // ------------------------------------------------------
-  runAll(matrix9){
+  // ======================================================
+  // PC‑Modul
+  // ======================================================
+  PC(frame){
+    return {
+      axis:"PC",
+      code:"PC‑LAYER",
+      impulse:"PC‑CORE",
+      state:"ACTIVE"
+    };
+  },
 
-    const r4 = this.core4RE;
-    const mron = this.mron4RE;
-    const s333 = this.s333_4RE;
-    const nc = this.nc4RE;
+  // ======================================================
+  // GHOST‑Modul
+  // ======================================================
+  GHOST(frame){
+    return {
+      axis:"GHOST",
+      code:"GHOST‑HELP‑7",
+      impulse:"ARG‑XARG‑ARG3te",
+      state:"ACTIVE"
+    };
+  },
 
-    const r6E = this.to6E();
-    const r6D = this.to6D();
-
-    const m3 = this.nc9to3(matrix9);
-    const ultra = this.ultra3x3(m3);
-
-    const IN = this.roomIN(matrix9);
-    const CORE = this.roomCORE(m3);
-    const OUT = this.roomOUT(ultra);
-
-    return { r4, mron, s333, nc, r6E, r6D, m3, ultra, IN, CORE, OUT };
-  }
-};
-
-// ------------------------------------------------------
-// ENGINE START
-// ------------------------------------------------------
-const matrix9 = [
-  ["●","▲","✦"],
-  ["⊖","⊕","◇"],
-  ["↗","↘","↔"]
-];
-
-const result = Engine.runAll(matrix9);
-document.getElementById("engineOut").textContent = JSON.stringify(result, null, 2);
-
-</script>
-
-</body>
-</html>
+  // ======================================================
+  // QUANT‑Ebene
+  // ======================================================
+  quant(t){
+    const seq = ["⚛","✦","✧","✩","✪","✫","✬","✭","✮"];
+    return {
+      atom: seq[Math.floor((t*10) % seq
