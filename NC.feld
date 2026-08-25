@@ -1,1 +1,16 @@
+NC.feld · TRANSWARB-RELEVANZ
+
+Ableitung:
+3e = XyX + AIR + AIV
+3e → 3³ = 27
+3³ → 9³ = 729
+9³ → 81
+
+NC.feld ist die Relevanzschnittstelle:
+NC.feld = 81 / 3e
+
+Funktion:
+NC.feld verbindet XyX, AIR und AIV zu einem einzigen
+TRANSWARB-Beweisfeld und schließt die Pumpu-Kette
+(3 → 27 → 729 → 81).
 
