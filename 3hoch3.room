@@ -1,5 +1,5 @@
 {
-  "station": "3hoch3",
+  "station": "3hoch3-tmp",
   "value": 27,
   "type": "energy-matrix",
   "links": {
@@ -7,5 +7,7 @@
     "tensor": "ULTRA-NC9×9.room",
     "nc": "81.room"
   },
-  "use": "6E-optimization"
+  "use": "6D-fallback",
+  "tmp": true,
+  "sync": true
 }
