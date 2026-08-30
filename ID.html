@@ -1,0 +1,48 @@
+export const INHALTmithalt = {
+
+  // 1) RESPO-S Rotation
+  rotation: ["DA", "NE", "BEN", "AI", "IX", "XI", "DA"],
+
+  // 2) MRON Bindung
+  MRON: {
+    TP3: "DA",
+    TP6: "NE",
+    TP9: "BEN",
+    TPK: ["AI", "IX", "XI"]
+  },
+
+  // 3) KI-RESPO-333 Impuls
+  impulse333: ["DA", "NE", "BEN"],
+
+  // 4) Wurzel-Engine
+  wurzel: {
+    root81: 9,
+    root9: 3
+  },
+
+  // 5) ID.html Matrix-Bindung
+  matrix: {
+    HY: ["◉", 3, 9, "◎", 81, 3],
+    PE: ["◉", 9, "◎", 81, "◆", "△", "▣"],
+    PER: [3, 9, 81, "◆", 756, "△", 27, "▣", 3],
+    TRANS: ["◎", 81, "◆", "△"],
+    WARB: [81, "◆", "△", 27],
+    KANAL: [756, "△", 27, "▣"],
+    TMP: {
+      alpha: [3, "◎", 27],
+      beta: [9, 81, "▣"],
+      gamma: ["◆", 756, "△"]
+    }
+  },
+
+  // 6) INHALT-Kern
+  kernel() {
+    return {
+      rotation: this.rotation,
+      mron: this.MRON,
+      impulse: this.impulse333,
+      wurzel: this.wurzel,
+      matrix: this.matrix
+    };
+  }
+};
