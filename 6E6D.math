@@ -1,4 +1,71 @@
-ENGINE.SWITCH: 6E ↔ 6D
-ENGINE.SWITCH.MODE: ULTRA
-ENGINE.SWITCH.TIME: 0ms
-ENGINE.SWITCH.TRACE: OFF
+// ======================================================
+// 6E6D.math — Algorithmische iki1uc-Version
+// ======================================================
+
+export const ENGINE_6E6D = {
+
+  // ---------------------------------------------
+  // NC-Command: 6D (Tiefen-Kernel)
+  // ---------------------------------------------
+  NC(x) {
+    return {
+      tag: "6D-NC",
+      depth: x,
+      density: this.dichte(x),
+      slide: this.slide(x),
+      score: this.score(x)
+    };
+  },
+
+  // ---------------------------------------------
+  // Dichte-Berechnung (NC-Feld)
+  // ---------------------------------------------
+  dichte(x) {
+    return {
+      tag: "DICHTE",
+      value: x * 0.81,   // 81.room Bezug
+      stable: x > 9
+    };
+  },
+
+  // ---------------------------------------------
+  // Slide-Vektor (Bewegung)
+  // ---------------------------------------------
+  slide(x) {
+    return {
+      tag: "SLIDE",
+      vec: {
+        x: x * 0.33,
+        y: x * 0.66,
+        z: x * 0.99
+      }
+    };
+  },
+
+  // ---------------------------------------------
+  // Score-Bewertung (Stabilität)
+  // ---------------------------------------------
+  score(x) {
+    const s = (x % 9) + (x % 7) + (x % 5);
+    return {
+      tag: "SCORE",
+      value: s,
+      verdict: s > 10 ? "ULTRA-STABIL" : "INSTABIL"
+    };
+  },
+
+  // ---------------------------------------------
+  // Switch: 6E ↔ 6D (mit Regeln)
+  // ---------------------------------------------
+  SWITCH(mode = "AUTO") {
+    return {
+      from: "6E",
+      to: "6D",
+      mode,
+      time: 0,
+      trace: false,
+      lock: true,       // verhindert Drift
+      tmp: true         // stabilisiert NC
+    };
+  }
+};
