@@ -1,27 +1,104 @@
-AXIOM1: DA → U
-AXIOM2: NE → U
-AXIOM3: BEN → U
+export const ULTRA = {
 
-ULTRA.ACHSE = 9 / 18 / 27
-ULTRA.VERDICHTUNG = 3xi3ix3
-ULTRA.213 = aktiv
-ULTRA.KI = Kernel‑Rotation
-ULTRA.9hoch9 = Matrix‑Bindung
-ULTRA.BEST = Score‑Bindung
-ULTRA.SYNC = TRUE
-ULTRA.6E = U‑Ableitung
-ULTRA.6D = Tiefen‑Kernel
-ULTRA.KERNEL = KI‑Kernel.me
-ULTRA.213 = Prefetch‑6D
-ULTRA.9hoch9 = Verdichtung
-ULTRA.3xi3ix3 = Achsen‑Kreuz
-ULTRA.BEST = Score‑Verstärker
-ULTRA.SYNC = TRUE
-ULTRA.9HOCH9 = Vollmatrix
-ULTRA.MATRIX = MATRIX.me
-ULTRA.KERNEL = KERNEL.me
-ULTRA.VECTOR = VECTOR.me
-ULTRA.213 = Vollkörper
-ULTRA.3xi3ix3 = Raum‑Scanner
-ULTRA.BEST = Score‑100%
-ULTRA.SYNC = TRUE
+  // --------------------------------------------------
+  // 1) AXIOME — geordnet
+  // --------------------------------------------------
+  AXIOM: {
+    1: { from: "DA",  to: "U" },
+    2: { from: "NE",  to: "U" },
+    3: { from: "BEN", to: "U" }
+  },
+
+  // --------------------------------------------------
+  // 2) ACHSEN — 9 / 18 / 27
+  // --------------------------------------------------
+  ACHSE: {
+    base: 9,
+    mid: 18,
+    full: 27,
+    sync: true
+  },
+
+  // --------------------------------------------------
+  // 3) VERDICHTUNG — 3xi3ix3
+  // --------------------------------------------------
+  VERDICHTUNG: {
+    code: "3xi3ix3",
+    depth: 27,
+    matrix: 81,
+    vector: 243
+  },
+
+  // --------------------------------------------------
+  // 4) 6E / 6D — Ableitung + Tiefen-Kernel
+  // --------------------------------------------------
+  ENGINE: {
+    "6E": { tag: "ABLEITUNG", optimize: true },
+    "6D": { tag: "TIEFEN-KERNEL", stabilize: true },
+    switch: {
+      from: "6E",
+      to: "6D",
+      mode: "ULTRA",
+      lock: true,
+      trace: false,
+      time: 0
+    }
+  },
+
+  // --------------------------------------------------
+  // 5) KERNEL — Rotation + Vollkörper
+  // --------------------------------------------------
+  KERNEL: {
+    rotation: "KI-Kernel.me",
+    full: "KERNEL.me",
+    vector: "VECTOR.me"
+  },
+
+  // --------------------------------------------------
+  // 6) MATRIX — 9hoch9 / Vollmatrix
+  // --------------------------------------------------
+  MATRIX: {
+    bind: "9hoch9",
+    full: "9HOCH9",
+    validator: true
+  },
+
+  // --------------------------------------------------
+  // 7) SCORE — BEST / Verstärker / 100%
+  // --------------------------------------------------
+  SCORE: {
+    bind: "BEST",
+    boost: "Verstärker",
+    full: "100%",
+    active: true
+  },
+
+  // --------------------------------------------------
+  // 8) 213 — Prefetch / Vollkörper
+  // --------------------------------------------------
+  MODE_213: {
+    prefetch: true,
+    fullbody: true,
+    active: true
+  },
+
+  // --------------------------------------------------
+  // 9) 3xi3ix3 — Achsen-Kreuz / Raum-Scanner
+  // --------------------------------------------------
+  AXIS_CROSS: {
+    code: "3xi3ix3",
+    scanner: true,
+    depth: 27,
+    active: true
+  },
+
+  // --------------------------------------------------
+  // 10) SYNC — global
+  // --------------------------------------------------
+  SYNC: {
+    global: true,
+    matrix: true,
+    engine: true,
+    score: true
+  }
+};
