@@ -1,16 +1,80 @@
-NC.feld · TRANSWARB-RELEVANZ
+// ======================================================
+// NC.feld — iki1uc TRANSWARB-Relevanzfeld
+// ======================================================
 
-Ableitung:
-3e = XyX + AIR + AIV
-3e → 3³ = 27
-3³ → 9³ = 729
-9³ → 81
+export const NC_feld = {
 
-NC.feld ist die Relevanzschnittstelle:
-NC.feld = 81 / 3e
+  // --------------------------------------------------
+  // 1) CONTINUUM — OST / WEST / NORD / SÜD
+  // --------------------------------------------------
+  CONTINUUM: {
 
-Funktion:
-NC.feld verbindet XyX, AIR und AIV zu einem einzigen
-TRANSWARB-Beweisfeld und schließt die Pumpu-Kette
-(3 → 27 → 729 → 81).
+    NORD: {
+      axis: "+Y",
+      mode: "VERDICHTUNG",
+      chain: [27, 81],
+      bind: "AIR"
+    },
 
+    SÜD: {
+      axis: "-Y",
+      mode: "ABLEITUNG",
+      chain: [81, 27, 3],
+      bind: "6E6D"
+    },
+
+    OST: {
+      axis: "+X",
+      mode: "EXPANSION",
+      chain: [3, 9, 27],
+      bind: "XyX"
+    },
+
+    WEST: {
+      axis: "-X",
+      mode: "KONTRAKTION",
+      chain: [27, 9, 3],
+      bind: "AIV"
+    },
+
+    PREFETCH: {
+      window3x2: [
+        [3, 9],
+        [27, 81],
+        [243, 729]
+      ],
+      sync: true,
+      mode: "ULTRA"
+    }
+  },
+
+  // --------------------------------------------------
+  // 2) Ableitung 3e = XyX + AIR + AIV
+  // --------------------------------------------------
+  derive(XyX, AIR, AIV) {
+    return XyX + AIR + AIV;
+  },
+
+  // --------------------------------------------------
+  // 3) Verdichtungskette (3 → 27 → 81 → 243 → 729)
+  // --------------------------------------------------
+  chain(x = 3) {
+    return {
+      base: x,
+      cube3: x ** 3,     // 27
+      nc: 81,            // NC.feld
+      expand: 81 * 3,    // 243
+      cube9: 9 ** 3      // 729
+    };
+  },
+
+  // --------------------------------------------------
+  // 4) NC.feld = 81 / 3e
+  // --------------------------------------------------
+  field(threeE) {
+    return 81 / threeE;
+  },
+
+  // --------------------------------------------------
+  // 5) TRANSWARB — Beweisfeld
+  // ------------------------------------------------
