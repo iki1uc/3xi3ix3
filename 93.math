@@ -1,20 +1,60 @@
 export const PREFETCH = {
 
   // --------------------------------------------------
-  // 1) POSITION — ULTRA-U / Layer / Relation / Direction
+  // 0) INHALTmithalt – Energie-Kern
+  // --------------------------------------------------
+  INHALT: {
+    rotation: ["DA", "NE", "BEN", "AI", "IX", "XI", "DA"],
+    impulse333: ["DA", "NE", "BEN"],
+    wurzel: { root81: 9, root9: 3 }
+  },
+
+  // --------------------------------------------------
+  // 1) MRON – Achsenbindung
+  // --------------------------------------------------
+  MRON: {
+    TP3: "DA",
+    TP6: "NE",
+    TP9: "BEN",
+    TP27: "AI",
+    TP12: "IX",
+    TPK: ["AI", "IX", "XI"]
+  },
+
+  // --------------------------------------------------
+  // 2) ID-Stationen – Energie-Map
+  // --------------------------------------------------
+  ID: {
+    "3":   { tp: "TP3",  role: "Basisdimension" },
+    "9":   { tp: "TP9",  role: "Wurzelraum" },
+    "27":  { tp: "TP27", role: "Energie-Matrix" },
+    "6":   { tp: "TP6",  role: "Dual-Form" },
+    "12":  { tp: "TP12", role: "Tensor-Quadrat" },
+    "6E":  { tp: "TPK",  role: "RESPO-Bridge" }
+  },
+
+  // --------------------------------------------------
+  // 3) CONTINUUM – OST/WEST/NORD/SÜD
+  // --------------------------------------------------
+  CONTINUUM: {
+    OST:  { axis: "+X", chain: [3, 9, 27], bind: "XyX" },
+    WEST: { axis: "-X", chain: [27, 9, 3], bind: "AIV" },
+    NORD: { axis: "+Y", chain: [27, 81],   bind: "AIR" },
+    SÜD:  { axis: "-Y", chain: [81, 27, 3], bind: "6E6D" }
+  },
+
+  // --------------------------------------------------
+  // 4) POSITION – ULTRA-U / Layer / Relation / Direction
   // --------------------------------------------------
   POS: {
     mode: "ULTRA-U",
     layer: [3, 6, 9],
     relation: ["3x3", "6E6D", "9x9"],
-    direction: {
-      in: "horizontal",
-      out: "vertikal"
-    }
+    direction: { in: "horizontal", out: "vertikal" }
   },
 
   // --------------------------------------------------
-  // 2) ENGINE — ULTRA-KERNEL / Bindungen
+  // 5) ENGINE – ULTRA-KERNEL
   // --------------------------------------------------
   ENGINE: {
     mode: "ULTRA-KERNEL",
@@ -23,7 +63,7 @@ export const PREFETCH = {
   },
 
   // --------------------------------------------------
-  // 3) 9x9 — Matrix-Bindung
+  // 6) MATRIX9 – 9x9 Bindung
   // --------------------------------------------------
   MATRIX9: {
     in: "horizontal",
@@ -36,7 +76,7 @@ export const PREFETCH = {
   },
 
   // --------------------------------------------------
-  // 4) 3x3 — Axiom / Zoom / Score
+  // 7) MATRIX3 – Axiom / Zoom / Score
   // --------------------------------------------------
   MATRIX3: {
     axiom: ["DA", "NE", "BEN"],
@@ -50,19 +90,17 @@ export const PREFETCH = {
   },
 
   // --------------------------------------------------
-  // 5) 6E6D — Ableitung / Tiefen-Kernel / Zoom
+  // 8) ENGINE6 – Tiefen-Kernel
   // --------------------------------------------------
   ENGINE6: {
     ableitung: "U",
     kernel: "Tiefen-Kernel",
     zoom: [6, 12, 18],
-    best: {
-      boost: true
-    }
+    best: { boost: true }
   },
 
   // --------------------------------------------------
-  // 6) KI — Frame / State / Switch
+  // 9) KI – Frame / State / Switch
   // --------------------------------------------------
   KI: {
     mode: "ENGINE-FRAME",
@@ -74,7 +112,7 @@ export const PREFETCH = {
   },
 
   // --------------------------------------------------
-  // 7) PREFETCH — ULTRA / Zoom / Trace
+  // 10) CORE – ULTRA / Zoom / Trace
   // --------------------------------------------------
   CORE: {
     mode: "ULTRA",
@@ -84,7 +122,7 @@ export const PREFETCH = {
   },
 
   // --------------------------------------------------
-  // 8) SYNC — global
+  // 11) SYNC – global
   // --------------------------------------------------
   SYNC: {
     all: true,
