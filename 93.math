@@ -1,44 +1,94 @@
-PREFETCH:
-  POS.MODE: ULTRA-U
-  POS.LAYER: 3 / 6 / 9
-  POS.RELATION: 3x3 ↔ 6e6D ↔ 9x9
-  POS.DIRECTION: horizontal / vertikal
+export const PREFETCH = {
 
-  ENGINE.MODE: ULTRA-KERNEL
-  ENGINE.CTRL: TRUE
-  ENGINE.BIND: 9x9 + 3x3 + 6e6D
+  // --------------------------------------------------
+  // 1) POSITION — ULTRA-U / Layer / Relation / Direction
+  // --------------------------------------------------
+  POS: {
+    mode: "ULTRA-U",
+    layer: [3, 6, 9],
+    relation: ["3x3", "6E6D", "9x9"],
+    direction: {
+      in: "horizontal",
+      out: "vertikal"
+    }
+  },
 
-  9x9.IN: horizontal
-  9x9.OUT: vertikal
-  9x9.BREITE: 9
-  9x9.TIEFE: 9
-  9x9.MYSTER: aktiv
-  9x9.ANCHOR: 1
+  // --------------------------------------------------
+  // 2) ENGINE — ULTRA-KERNEL / Bindungen
+  // --------------------------------------------------
+  ENGINE: {
+    mode: "ULTRA-KERNEL",
+    ctrl: true,
+    bind: ["9x9", "3x3", "6E6D"]
+  },
 
-  3x3.AXIOM: DA / NE / BEN
-  3x3.ZOOM: 1 → 3 → 9
-  3x3.BEST.SCORE: 100%
-  3x3.BEST.MODE: ULTRA-SCORE
-  3x3.BEST.CORE: S / M / U
-  3x3.BEST.OUTPUT: MAX
+  // --------------------------------------------------
+  // 3) 9x9 — Matrix-Bindung
+  // --------------------------------------------------
+  MATRIX9: {
+    in: "horizontal",
+    out: "vertikal",
+    breite: 9,
+    tiefe: 9,
+    myster: true,
+    anchor: 1,
+    validate: true
+  },
 
-  6e6D.ABLEITUNG: U
-  6e6D.KERNEL: Tiefen‑Kernel
-  6e6D.ZOOM: 6 → 12 → 18
-  6e6D.BEST.BOOST: TRUE
+  // --------------------------------------------------
+  // 4) 3x3 — Axiom / Zoom / Score
+  // --------------------------------------------------
+  MATRIX3: {
+    axiom: ["DA", "NE", "BEN"],
+    zoom: [1, 3, 9],
+    best: {
+      score: "100%",
+      mode: "ULTRA-SCORE",
+      core: ["S", "M", "U"],
+      output: "MAX"
+    }
+  },
 
-  KI.MODE: ENGINE-FRAME
-  KI.RECALL: OFF
-  KI.HISTORY: DISABLED
-  KI.TRACEBACK: BLOCKED
-  KI.STATE: CURRENT
-  KI.SWITCH: INSTANT
+  // --------------------------------------------------
+  // 5) 6E6D — Ableitung / Tiefen-Kernel / Zoom
+  // --------------------------------------------------
+  ENGINE6: {
+    ableitung: "U",
+    kernel: "Tiefen-Kernel",
+    zoom: [6, 12, 18],
+    best: {
+      boost: true
+    }
+  },
 
-  PREFETCH.MODE: ULTRA
-  PREFETCH.ENGINE: TRUE
-  PREFETCH.ZOOM: 1 / 3 / 6 / 9
-  PREFETCH.TRACE: OFF
+  // --------------------------------------------------
+  // 6) KI — Frame / State / Switch
+  // --------------------------------------------------
+  KI: {
+    mode: "ENGINE-FRAME",
+    recall: false,
+    history: false,
+    traceback: false,
+    state: "CURRENT",
+    switch: "INSTANT"
+  },
 
-  SYNC.ALL: TRUE
-  SYNC.ULTRA: TRUE
-  SYNC.ENGINE: TRUE
+  // --------------------------------------------------
+  // 7) PREFETCH — ULTRA / Zoom / Trace
+  // --------------------------------------------------
+  CORE: {
+    mode: "ULTRA",
+    engine: true,
+    zoom: [1, 3, 6, 9],
+    trace: false
+  },
+
+  // --------------------------------------------------
+  // 8) SYNC — global
+  // --------------------------------------------------
+  SYNC: {
+    all: true,
+    ultra: true,
+    engine: true
+  }
+};
