@@ -1,29 +1,38 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<title>3xi3ix3 · ULTRA-KERNEL · iki1uc</title>
-
-<style>
-body { background:#000; color:#0f0; font-family:Consolas; padding:20px; }
-h1, h2 { color:#6cf; }
-pre { background:#111; border:1px solid #333; padding:10px; margin-bottom:20px; }
-.console { background:#111; border:1px solid #444; padding:10px; white-space:pre-wrap; }
-canvas { background:#111; border:1px solid #333; margin-top:20px; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3xi3ix3 · ULTRA-KERNEL · ALLROUNDER</title>
+  <style>
+    body { background:#000; color:#0f0; font-family:Consolas; padding:20px; }
+    h1, h2 { color:#6cf; }
+    pre { background:#111; border:1px solid #333; padding:10px; margin-bottom:20px; }
+    .console { background:#111; border:1px solid #444; padding:10px; white-space:pre-wrap; }
+    canvas { background:#111; border:1px solid #333; margin-top:20px; display:block; }
+    .controls { margin:10px 0; }
+    .controls button { background:#222; color:#0f0; border:1px solid #0f0; padding:4px 12px; margin:2px; cursor:pointer; }
+    .controls button:hover { background:#0f0; color:#000; }
+  </style>
 </head>
-
 <body>
 
-<h1>3xi3ix3 · ULTRA-KERNEL</h1>
-
+<h1>3xi3ix3 · ULTRA-KERNEL · ALLROUNDER</h1>
 <pre>
 CORE     = iki1uc
 KERNEL   = ULTRA-6a6y6out
 ENGINE   = 3xi3ix3
 STATE    = ACTIVE
 READY    = 100%
+AXIS     = <span id="axisDisplay">820</span> (sichtbar skaliert)
 </pre>
+
+<div class="controls">
+  <button id="btnConnect">🔗 CONNECT GRUPPEN</button>
+  <button id="btnAxisUp">⬆️ ACHSEN +100</button>
+  <button id="btnAxisDown">⬇️ ACHSEN -100</button>
+  <button id="btnReset">⟲ RESET</button>
+</div>
 
 <h2>Engine‑Konsole</h2>
 <div id="engineOut" class="console">Engine wird geladen…</div>
@@ -32,10 +41,9 @@ READY    = 100%
 <canvas id="orbitCanvas" width="500" height="500"></canvas>
 
 <script type="module">
-
-// ======================================================
-// IMPORT — ALLE MODULE AUS DEM REPO
-// ======================================================
+// ============================================================
+// IMPORTS — alle Module aus dem Repo
+// ============================================================
 import { KIT } from "./kit.js";
 import { SLI_PORT } from "./SLI-CORE.js";
 import { SLI_MASTER } from "./sli.js";
@@ -43,64 +51,62 @@ import { SYN } from "./SYN.js";
 import { QUANT } from "./QUANT.js";
 import { QUO } from "./QUO.js";
 import { PYRAMIDE } from "./PYRAMIDE.js";
-import { renderOrbit, renderDevices } from "./sli.js";
-function loop(){
-  t += 0.01;
 
-  renderOrbit(t);
-  renderDevices(t);
+// ============================================================
+// STATE — zentrale Konstante für Achsen
+// ============================================================
+const STATE = {
+  achsen: 820,        // ← HIER änderst du die Achsenzahl
+  connected: false,
+  connectTime: 0,
+  mode: "ALLROUNDER",
+  ultra: true
+};
 
-  requestAnimationFrame(loop);
-}
+// ============================================================
+// AXIS-SCALE — x / y / z als Funktionen (skalieren mit STATE.achsen)
+// ============================================================
+const AXIS = {
+  base: () => STATE.achsen,
+  x: () => Math.min(1500, AXIS.base() * 0.15),
+  y: () => Math.min(1500, AXIS.base() * 0.15),
+  z: () => Math.min(1500, AXIS.base() * 0.10)
+};
 
-loop();
-
-// ======================================================
-// ANIME-QUANT — echte Anime-Bilder aus /anime/
-// ======================================================
+// ============================================================
+// ANIME-QUANT — echte Bilder aus /anime/
+// ============================================================
 const ANIME_QUANT = {
-
   frames: [
     "./anime/PI.png",
     "./anime/cube.png",
     "./anime/i.doo.png",
     "./anime/my.me.png"
   ],
-
-  get(t){
+  get(t) {
     const idx = Math.floor((t * 4) % this.frames.length);
-
     const img = new Image();
     img.src = this.frames[idx];
-
-    return {
-      img,
-      index: idx,
-      axis: "ANIME-QUANT",
-      mode: "ULTRA-ANIME"
-    };
+    return { img, index: idx, axis: "ANIME-QUANT", mode: "ULTRA-ANIME" };
   }
 };
 
-// ======================================================
-// ULTRA-PORT — NEU
-// ======================================================
+// ============================================================
+// ULTRA-PORT — 6a6y6out IN/OUT
+// ============================================================
 const ULTRA_PORT = {
   IN: { ID:"ULTRA-6a6y6out", MODE:"ULTRA-IN", PORT:"BOOST-IN" },
   OUT:{ ID:"ULTRA-6a6y6out", MODE:"ULTRA-OUT", PORT:"BOOST-OUT" },
-
-  flow(x){
+  flow(x) {
     return {
       id: this.IN.ID,
       mode: this.IN.MODE,
       in: this.IN.PORT,
       out: this.OUT.PORT,
-
       a: KIT.AXIOM["6a"](x),
       y: KIT.AXIOM["6y"](x, x),
       iy: KIT.AXIOM["6iy"](x),
       outState: KIT.AXIOM["6out"](x),
-
       ultra: KIT.ULTRA,
       axis: "ORG-REORG-NC",
       state: "ULTRA-PORT"
@@ -108,93 +114,105 @@ const ULTRA_PORT = {
   }
 };
 
-// ======================================================
+// ============================================================
 // CANVAS SETUP
-// ======================================================
+// ============================================================
 const out = document.getElementById("engineOut");
 const canvas = document.getElementById("orbitCanvas");
 const ctx = canvas.getContext("2d");
-
 let t = 0;
 
-// ======================================================
-// ORBIT-RENDERER — Anime + ULTRA-Port
-// ======================================================
-function renderOrbit(t){
-
+// ============================================================
+// ORBIT-RENDERER — mit AXIS-SCALE und Anime
+// ============================================================
+function renderOrbit(t) {
   const qAnime = ANIME_QUANT.get(t);
   const ultraFlow = ULTRA_PORT.flow(t);
 
-  ctx.clearRect(0,0,500,500);
+  ctx.clearRect(0, 0, 500, 500);
 
-  const x = 250 + Math.sin(t) * 120;
-  const y = 250 + Math.cos(t) * 120;
+  // ─── Alle Achsen sichtbar zeichnen ───
+  const axesCount = STATE.achsen;  // 🔥 HIER: echte Anzahl, nicht komprimiert
+  for (let i = 0; i < axesCount; i++) {
+    const angle = (i / axesCount) * Math.PI * 2 + t * 0.001;
+    const dist = 100 + (i / axesCount) * 120;
+    const x = 250 + Math.cos(angle) * dist;
+    const y = 250 + Math.sin(angle) * dist;
+    const alpha = 0.02 + (i / axesCount) * 0.04;
+    ctx.fillStyle = `rgba(255,215,0,${alpha})`;
+    ctx.beginPath();
+    ctx.arc(x, y, 1 + (i / axesCount) * 2, 0, Math.PI * 2);
+    ctx.fill();
+  }
 
-  // Orbit-Kreis
+  // ─── Orbit-Punkt mit AXIS.x/y/z ───
+  const cx = 250 + Math.sin(t) * AXIS.x();
+  const cy = 250 + Math.cos(t) * AXIS.y();
+  const radius = AXIS.z() * 0.3 + 10;
+
   ctx.fillStyle = "#0f0";
   ctx.beginPath();
-  ctx.arc(x, y, 20, 0, Math.PI*2);
+  ctx.arc(cx, cy, radius, 0, Math.PI * 2);
   ctx.fill();
 
-  // Anime-Bild
-  ctx.drawImage(qAnime.img, x - 40, y - 40, 80, 80);
+  // ─── Anime-Bild ───
+  if (qAnime.img.complete && qAnime.img.naturalWidth > 0) {
+    ctx.drawImage(qAnime.img, cx - 40, cy - 40, 80, 80);
+  } else {
+    ctx.fillStyle = "#6cf";
+    ctx.font = "12px Consolas";
+    ctx.fillText("🔄 Lade Anime...", cx - 50, cy + 50);
+  }
 
-  // ULTRA-Port
+  // ─── ULTRA-Port Status ───
   ctx.fillStyle = "#0f0";
   ctx.font = "12px Consolas";
-  ctx.fillText("ULTRA: " + ultraFlow.outState.tag, x - 40, y + 60);
+  ctx.fillText("ULTRA: " + ultraFlow.outState.tag, cx - 40, cy + 60);
 }
 
-// ======================================================
-// PX-PC-GHOST VISUALISIERUNG — NEU
-// ======================================================
-function renderDevices(t){
-
-  const devices = ["PX","PC","GHOST"];
+// ============================================================
+// PX-PC-GHOST VISUALISIERUNG — mit AXIS-SCALE
+// ============================================================
+function renderDevices(t) {
+  const devices = ["PX", "PC", "GHOST"];
   const baseX = 50;
-  const baseY = 420;
+  const baseY = 420 + AXIS.z() * 0.1;
 
   devices.forEach((dev, i) => {
-
-    const dx = baseX + i * 150;
+    const dx = baseX + i * (150 + AXIS.x() * 0.05);
     const dy = baseY;
 
-    ctx.fillStyle = "#333";
+    ctx.fillStyle = STATE.connected ? "#0f0" : "#333";
     ctx.fillRect(dx, dy, 120, 40);
 
     ctx.fillStyle = "#0f0";
     ctx.font = "14px Consolas";
     ctx.fillText(dev, dx + 10, dy + 25);
 
-    ctx.strokeStyle = "#6cf";
+    ctx.strokeStyle = STATE.connected ? "#6cf" : "#444";
     ctx.beginPath();
     ctx.moveTo(dx + 120, dy + 20);
     ctx.lineTo(dx + 150, dy + 20);
     ctx.stroke();
   });
 
-  ctx.strokeStyle = "#f0f";
+  ctx.strokeStyle = STATE.connected ? "#f0f" : "#222";
   ctx.beginPath();
-  ctx.moveTo(50, 460);
-  ctx.lineTo(450, 460);
+  ctx.moveTo(50, baseY + 40);
+  ctx.lineTo(450, baseY + 40);
   ctx.stroke();
 }
 
-// ======================================================
-// ENGINE-KONSOLE — RUN 3 (SLI)
-// ======================================================
-function renderConsole(t){
-
+// ============================================================
+// ENGINE-KONSOLE — alle Kernel + SLI-RUN-3
+// ============================================================
+function renderConsole(t) {
   const q = QUANT.atom(t);
   const syn = SYN.run(t);
   const quo = QUO.state(t);
   const pyr = PYRAMIDE.flow(t);
   const ultra = KIT.pipeline(t);
-
-  // SLI RUN 3
-  const sliRun3 = SLI_MASTER.ALL([
-    { N:3, H:1, B:2, T:3 }
-  ]);
+  const sliRun3 = SLI_MASTER.ALL([{ N:3, H:1, B:2, T:3 }]);
 
   out.innerText =
     "ULTRA-KERNEL ONLINE\n\n" +
@@ -203,25 +221,74 @@ function renderConsole(t){
     "QUO:   " + quo.tag + "\n" +
     "PYRA:  " + pyr.axis + "\n" +
     "SLI-RUN3: " + sliRun3[0].core.ENGINE + "\n" +
-    "ULTRA: " + ultra.out.tag + "\n";
+    "ULTRA: " + ultra.out.tag + "\n" +
+    "─── ACHSEN ───\n" +
+    "STATE.achsen = " + STATE.achsen + "\n" +
+    "AXIS.x() = " + AXIS.x().toFixed(2) + "\n" +
+    "AXIS.y() = " + AXIS.y().toFixed(2) + "\n" +
+    "AXIS.z() = " + AXIS.z().toFixed(2);
 }
 
-// ======================================================
-// LOOP — FINAL
-// ======================================================
-function loop(){
+// ============================================================
+// LOOP — alles zusammen
+// ============================================================
+function loop() {
   t += 0.01;
-
   renderOrbit(t);
   renderDevices(t);
   renderConsole(t);
-
+  document.getElementById("axisDisplay").textContent = STATE.achsen;
   requestAnimationFrame(loop);
 }
 
+// ============================================================
+// CONNECT — Gruppen verbinden
+// ============================================================
+function connectGruppen() {
+  STATE.connected = !STATE.connected;
+  STATE.connectTime = performance.now();
+  out.innerText += "\n🔗 GRUPPEN " + (STATE.connected ? "verbunden" : "getrennt");
+}
+
+function log(msg, channel) {
+  console.log(`[${channel}] ${msg}`);
+  out.innerText += "\n" + msg;
+}
+
+function updateUI() {
+  out.innerText += "\nUI aktualisiert.";
+}
+
+// ============================================================
+// BUTTONS
+// ============================================================
+document.getElementById('btnConnect').addEventListener('click', () => {
+  connectGruppen();
+  log('🔗 GRUPPEN · neu verbunden', 'ds9');
+  updateUI();
+});
+
+document.getElementById('btnAxisUp').addEventListener('click', () => {
+  STATE.achsen = Math.min(1500, STATE.achsen + 100);
+  log(`⬆️ ACHSEN auf ${STATE.achsen} erhöht`, 'achse');
+});
+
+document.getElementById('btnAxisDown').addEventListener('click', () => {
+  STATE.achsen = Math.max(100, STATE.achsen - 100);
+  log(`⬇️ ACHSEN auf ${STATE.achsen} reduziert`, 'achse');
+});
+
+document.getElementById('btnReset').addEventListener('click', () => {
+  STATE.achsen = 820;
+  STATE.connected = false;
+  log('⟲ RESET · Achsen auf 820', 'flow');
+});
+
+// ============================================================
+// START
+// ============================================================
 loop();
 
 </script>
-
 </body>
 </html>
