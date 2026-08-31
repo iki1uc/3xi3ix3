@@ -1,25 +1,63 @@
-PREFETCH:
-  POS.MODE: ULTRA-U
-  POS.LAYER: 3 / 6 / 9
-  POS.RELATION: 3x3 → 6e6D → 9x9
+export const PREFETCH_POS_ENGINE_MATRIX_SYNC = {
 
-  ENGINE.MODE: ULTRA-KERNEL
-  ENGINE.CTRL: TRUE
-  ENGINE.BIND: 9x9 + 3x3 + 6e6D
+  // --------------------------------------------------
+  // 1) POS — ULTRA-U / Layer / Relation
+  // --------------------------------------------------
+  POS: {
+    MODE: "ULTRA-U",
+    LAYER: [3, 6, 9],
+    RELATION: ["3x3", "6E6D", "9x9"],
+    axis: "ORG-REORG"
+  },
 
-  9x9.IN: horizontal
-  9x9.OUT: vertikal
-  9x9.BREITE: 9
-  9x9.TIEFE: 9
-  9x9.MYSTER: aktiv
+  // --------------------------------------------------
+  // 2) ENGINE — ULTRA-KERNEL
+  // --------------------------------------------------
+  ENGINE: {
+    MODE: "ULTRA-KERNEL",
+    CTRL: true,
+    BIND: ["9x9", "3x3", "6E6D"],
+    axis: "NC-ORG"
+  },
 
-  3x3.AXIOM: DA / NE / BEN
-  3x3.ZOOM: 1 → 3 → 9
+  // --------------------------------------------------
+  // 3) MATRIX — 9x9 / 3x3 / 6E6D
+  // --------------------------------------------------
+  MATRIX: {
 
-  6e6D.ABLEITUNG: U
-  6e6D.KERNEL: Tiefen‑Kernel
-  6e6D.ZOOM: 6 → 12 → 18
+    // 9x9 — ORG
+    "9x9": {
+      IN: "horizontal",
+      OUT: "vertikal",
+      BREITE: 9,
+      TIEFE: 9,
+      MYSTER: "aktiv",
+      axis: "ORG"
+    },
 
-  SYNC.ALL: TRUE
-  SYNC.ULTRA: TRUE
-  SYNC.ENGINE: TRUE
+    // 3x3 — REORG
+    "3x3": {
+      AXIOM: ["DA", "NE", "BEN"],
+      ZOOM: [1, 3, 9],
+      axis: "REORG"
+    },
+
+    // 6E6D — NC-ORG
+    "6E6D": {
+      ABLEITUNG: "U",
+      KERNEL: "Tiefen-Kernel",
+      ZOOM: [6, 12, 18],
+      axis: "NC-ORG"
+    }
+  },
+
+  // --------------------------------------------------
+  // 4) SYNC — global
+  // --------------------------------------------------
+  SYNC: {
+    ALL: true,
+    ULTRA: true,
+    ENGINE: true,
+    axis: "ORG-REORG-NC"
+  }
+};
