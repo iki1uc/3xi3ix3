@@ -1,41 +1,35 @@
-// ------------------------------------------------------
+// ======================================================
 // ULTRA-PORT — 6a6y6out IN/OUT
-// ------------------------------------------------------
-export const ULTRA_PORT = {
+// ======================================================
+const ULTRA_PORT = {
 
   IN: {
-    ID: "6a6y6out",
+    ID: "ULTRA-6a6y6out",
     MODE: "ULTRA-IN",
     PORT: "BOOST-IN"
   },
 
   OUT: {
-    ID: "6a6y6out",
+    ID: "ULTRA-6a6y6out",
     MODE: "ULTRA-OUT",
     PORT: "BOOST-OUT"
   },
 
-  flow(x) {
+  flow(x){
     return {
       id: this.IN.ID,
       mode: this.IN.MODE,
       in: this.IN.PORT,
       out: this.OUT.PORT,
 
-      a: AXIOM["6a"](x),
-      y: AXIOM["6y"](x, x),
-      iy: AXIOM["6iy"](x),
-      outState: AXIOM["6out"](x),
+      a: KIT.AXIOM["6a"](x),
+      y: KIT.AXIOM["6y"](x, x),
+      iy: KIT.AXIOM["6iy"](x),
+      outState: KIT.AXIOM["6out"](x),
 
-      ultra: {
-        zoom: ULTRA.PREFETCH.zoom,
-        achse: ULTRA.ACHSE,
-        matrix: ULTRA.MATRIX,
-        verdichtung: ULTRA.VERDICHTUNG
-      },
-
-      mode: "ULTRA-PORT",
-      axis: "ORG-REORG-NC"
+      ultra: KIT.ULTRA,
+      axis: "ORG-REORG-NC",
+      state: "ULTRA-PORT"
     };
   }
 };
