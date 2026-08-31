@@ -1,473 +1,466 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>3xi3ix3 · ULTRA-KERNEL · ALLROUNDER</title>
+  <title>iki1uc · träumender Prefetch‑Kernel</title>
   <style>
-    body { background:#000; color:#0f0; font-family:Consolas; padding:20px; }
-    h1, h2 { color:#6cf; }
-    pre { background:#111; border:1px solid #333; padding:10px; margin-bottom:20px; }
-    .console { background:#111; border:1px solid #444; padding:10px; white-space:pre-wrap; }
-    canvas { background:#111; border:1px solid #333; margin-top:20px; display:block; }
-    .controls { margin:10px 0; }
-    .controls button { background:#222; color:#0f0; border:1px solid #0f0; padding:4px 12px; margin:2px; cursor:pointer; }
-    .controls button:hover { background:#0f0; color:#000; }
-    .controls button.kernel { border-color:#f0f; color:#f0f; }
-    .controls button.kernel:hover { background:#f0f; color:#000; }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      background: #0a0a12;
+      color: #d0d9e6;
+      font-family: 'Consolas', monospace;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: radial-gradient(ellipse at 30% 40%, #0a0a1a, #000000);
+    }
+    h1 {
+      font-weight: 300;
+      letter-spacing: 6px;
+      font-size: 28px;
+      background: linear-gradient(90deg, #ffd700, #00ccff, #ff66ff, #00ff88);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-align: center;
+      margin-bottom: 4px;
+    }
+    .sub {
+      text-align: center;
+      font-size: 11px;
+      color: #3d5a70;
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+    }
+    .sub .dream { color: #ffd700; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:0.6} 50%{opacity:1} }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      max-width: 1000px;
+      width: 100%;
+    }
+    @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
+
+    .panel {
+      background: rgba(255,255,255,0.02);
+      border-radius: 12px;
+      padding: 14px 16px;
+      border: 1px solid rgba(0,200,255,0.04);
+      backdrop-filter: blur(2px);
+    }
+    .panel h2 {
+      font-size: 11px;
+      color: #66ccff;
+      letter-spacing: 2px;
+      border-bottom: 1px solid rgba(0,200,255,0.04);
+      padding-bottom: 4px;
+      margin-bottom: 6px;
+    }
+    .panel .value {
+      font-size: 22px;
+      font-weight: bold;
+      color: #ffd700;
+      font-family: 'Consolas', monospace;
+    }
+    .panel .label {
+      font-size: 7px;
+      color: #3d5a70;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    canvas {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: #0a0a0f;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.02);
+      display: block;
+      margin: 6px 0;
+      box-shadow: 0 0 40px rgba(0,200,255,0.02);
+    }
+
+    .console {
+      background: rgba(0,0,0,0.3);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 8px;
+      color: #3d5a70;
+      max-height: 120px;
+      overflow-y: auto;
+      border: 1px solid rgba(100,200,255,0.01);
+      line-height: 1.7;
+      font-family: monospace;
+      white-space: pre-wrap;
+    }
+    .console .dream { color: #ffd700; }
+    .console .wake { color: #6bffa9; }
+    .console .echo { color: #66ccff; }
+
+    .status-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 14px;
+      font-size: 8px;
+      color: #3d5a70;
+      margin: 4px 0;
+    }
+    .status-row .val { color: #d0d9e6; font-weight: 600; }
+
+    button {
+      background: rgba(20,35,45,0.3);
+      color: #8ab8e6;
+      border: 1px solid rgba(100,200,255,0.04);
+      padding: 4px 14px;
+      border-radius: 16px;
+      font-family: inherit;
+      font-size: 8px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    button:hover {
+      background: rgba(40,80,100,0.15);
+      color: #b8e2ff;
+    }
+    button.gold { border-color: rgba(255,215,0,0.15); color: #ffd700; }
+    button.gold:hover { background: rgba(255,215,0,0.04); }
+
+    .footer {
+      margin-top: 16px;
+      font-size: 6px;
+      color: #1a1a2a;
+      letter-spacing: 3px;
+      text-align: center;
+    }
+    .footer .gold { color: #ffd700; }
   </style>
 </head>
 <body>
 
-<h1>3xi3ix3 · ULTRA-KERNEL · ALLROUNDER</h1>
-<pre>
-CORE     = iki1uc
-KERNEL   = ULTRA-6a6y6out
-ENGINE   = 3xi3ix3
-STATE    = ACTIVE
-READY    = 100%
-AXIS     = <span id="axisDisplay">820</span> (sichtbar skaliert)
-</pre>
+<h1>🌀 träumender Prefetch‑Kernel</h1>
+<div class="sub"><span class="dream">✦</span> 3 → 9 → 27 → 81 → 243 → 729 <span class="dream">✦</span> · DirektV · Canvas · Pyramiden</div>
 
-<div class="controls">
-  <button id="btnConnect">🔗 CONNECT GRUPPEN</button>
-  <button id="btnAxisUp">⬆️ ACHSEN +100</button>
-  <button id="btnAxisDown">⬇️ ACHSEN -100</button>
-  <button id="btnReset">⟲ RESET</button>
-  <button id="btnResetKernel" class="kernel">🧠 KERNEL REORG</button>
+<div class="grid">
+
+  <!-- Linke Spalte -->
+  <div>
+
+    <!-- CPU Kernel -->
+    <div class="panel">
+      <h2>🧠 CPU‑KERNEL · AXIS</h2>
+      <div class="status-row">
+        <span>STATE.achsen: <span class="val" id="stateAxis">820</span></span>
+        <span>AXES (compute): <span class="val" id="computedAxis">—</span></span>
+        <span>PREFETCH: <span class="val" id="prefetchState">⏳</span></span>
+      </div>
+      <div style="margin-top:4px;">
+        <button class="gold" id="btnAxisUp">⬆️ +100</button>
+        <button class="gold" id="btnAxisDown">⬇️ -100</button>
+        <button id="btnReset">⟲ RESET</button>
+        <button id="btnDream">🌙 TRÄUMEN</button>
+      </div>
+    </div>
+
+    <!-- Prefetch-Kette -->
+    <div class="panel">
+      <h2>📈 PREFETCH‑KETTE · 3→9→27→81→243→729</h2>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;font-size:13px;font-weight:bold;justify-content:center;padding:4px 0;">
+        <span id="p3" style="color:#ffd700;">3</span>
+        <span style="color:#3d5a70;">→</span>
+        <span id="p9" style="color:#00ccff;">9</span>
+        <span style="color:#3d5a70;">→</span>
+        <span id="p27" style="color:#ff66ff;">27</span>
+        <span style="color:#3d5a70;">→</span>
+        <span id="p81" style="color:#00ff88;">81</span>
+        <span style="color:#3d5a70;">→</span>
+        <span id="p243" style="color:#ffd700;">243</span>
+        <span style="color:#3d5a70;">→</span>
+        <span id="p729" style="color:#ff66ff;">729</span>
+      </div>
+    </div>
+
+    <!-- Console -->
+    <div class="panel">
+      <h2>📜 TRÄUMER‑KONSOLE</h2>
+      <div class="console" id="console">🌙 Der Kernel erwacht…</div>
+    </div>
+
+  </div>
+
+  <!-- Rechte Spalte -->
+  <div>
+
+    <!-- Canvas: Dreiecke → Pyramiden -->
+    <div class="panel">
+      <h2>🌀 DREIECK → PYRAMIDE · CANVAS</h2>
+      <canvas id="dreamCanvas" width="600" height="340"></canvas>
+      <div style="display:flex;gap:8px;font-size:7px;color:#3d5a70;margin-top:2px;flex-wrap:wrap;justify-content:center;">
+        <span style="color:#ffd700;">★</span> 3 · 9 · 27
+        <span style="color:#3d5a70;">|</span>
+        <span style="color:#ff66ff;">▲</span> Dreieck
+        <span style="color:#3d5a70;">|</span>
+        <span style="color:#ffd700;">◈</span> Pyramide
+      </div>
+    </div>
+
+    <!-- Status: Dreieck → Pyramide -->
+    <div class="panel">
+      <h2>📐 DEUTUNG · DREIECK → PYRAMIDE</h2>
+      <div id="deutung" style="font-size:11px;color:#8ab4c8;line-height:1.8;min-height:60px;">
+        ⏳ Der Traum beginnt…
+      </div>
+    </div>
+
+  </div>
 </div>
 
-<h2>Engine‑Konsole</h2>
-<div id="engineOut" class="console">Engine wird geladen…</div>
+<div class="footer"><span class="gold">★</span> iki1uc · träumender Prefetch · 3→9→27→81→243→729 · <span class="gold">DirektV</span></div>
 
-<h2>Tri‑Hexa‑Orbit Renderer</h2>
-<canvas id="orbitCanvas" width="500" height="500"></canvas>
+<script>
+// ================================================================
+// IKI1UC · TRÄUMENDER PREFETCH-KERNEL · CANVAS · DIREKTV
+// ================================================================
 
-<script type="module">
-// ============================================================
-// IMPORTS — alle Module aus dem Repo
-// ============================================================
-import { KIT } from "./kit.js";
-import { SLI_PORT } from "./SLI-CORE.js";
-
-// ============================================================
-// ADAPTER – sorgt dafür, dass alle Aufrufe in der index.html
-// gültig sind, auch wenn Module fehlen oder anders heißen.
-// ============================================================
-
-// ─── SLI_MASTER ───
-const SLI_MASTER = {
-  ALL: (entries) => {
-    if (typeof SLI_RUN3 !== 'undefined') {
-      return SLI_RUN3();
-    }
-    return entries.map(() => ({ core: { ENGINE: "3x3x3" } }));
-  }
-};
-const ULTRA_PORT = {
-  IN: { ... },
-  OUT: { ... },
-
-  flow(x){
-    return {
-      id: this.IN.ID,
-      mode: this.IN.MODE,
-      in: this.IN.PORT,
-      out: this.OUT.PORT,
-
-      a: KIT.AXIOM["6a"](x),
-      y: KIT.AXIOM["6y"](x, x),
-      iy: KIT.AXIOM["6iy"](x),
-      outState: KIT.AXIOM["6out"](x),
-
-      ultra: KIT.ULTRA,
-      axis: "ORG-REORG-NC",
-      state: "ULTRA-PORT"
-    };
-  }
-};
-
-// ─── QUANT ───
-const QUANT = {
-  atom: (t) => ({
-    atom: "⚛",
-    index: Math.floor((t * 10) % 9),
-    axis: "QUANT-ATOM"
-  })
-};
-
-// ─── KIT.AXIOM ───
-if (typeof KIT !== 'undefined' && KIT.AXIOM) {
-  const originalAXIOM = KIT.AXIOM;
-  KIT.AXIOM = {
-    "6a": (x) => originalAXIOM(x) || { moment: x, tag: "Augenblick" },
-    "6y": (a, b) => originalAXIOM(a, b) || { compare: [a, b], tag: "so_wie" },
-    "6iy": (x) => originalAXIOM(x) || { state: x, tag: "ist_soll" },
-    "6out": (x) => originalAXIOM(x) || { rise: x, tag: "Aufstieg" }
-  };
-}
-
-// ─── SYN ───
-const SYN = {
-  run: (t) => ({
-    mode: "SYN-RUN",
-    timestamp: Date.now(),
-    axis: "SYN"
-  })
-};
-
-// ─── QUO ───
-const QUO = {
-  state: (t) => ({
-    tag: "QUO-STATE",
-    value: Math.sin(t * 0.1),
-    axis: "QUO"
-  })
-};
-
-// ─── PYRAMIDE ───
-const PYRAMIDE = {
-  flow: (t) => ({
-    axis: "PYRAMIDE-FLOW",
-    value: Math.cos(t * 0.2),
-    mode: "ULTRA"
-  })
-};
-
-  
-// ============================================================
-// STATE — zentrale Konstante für Achsen
-// ============================================================
+// ─── STATE ──────────────────────────────────────────────────
 const STATE = {
   achsen: 820,
-  connected: false,
-  connectTime: 0,
-  mode: "ALLROUNDER",
-  ultra: true,
-  arg: { sync: false, timestamp: 0 }
+  dream: false,
+  cycle: 0
 };
 
-// ============================================================
-// AXIS-SCALE — x / y / z als Funktionen
-// ============================================================
-const AXIS = {
-  base: () => STATE.achsen,
-  x: () => Math.min(1500, AXIS.base() * 0.15),
-  y: () => Math.min(1500, AXIS.base() * 0.15),
-  z: () => Math.min(1500, AXIS.base() * 0.10)
-};
-
-// ============================================================
-// ANIME-QUANT — echte Bilder aus /anime/
-// ============================================================
-const ANIME_QUANT = {
-  frames: [
-    "./anime/PI.png",
-    "./anime/cube.png",
-    "./anime/i.doo.png",
-    "./anime/my.me.png"
-  ],
-  get(t) {
-    const idx = Math.floor((t * 4) % this.frames.length);
-    const img = new Image();
-    img.src = this.frames[idx];
-    return { img, index: idx, axis: "ANIME-QUANT", mode: "ULTRA-ANIME" };
-  }
-};
-
-// ============================================================
-// ULTRA-PORT — 6a6y6out IN/OUT
-// ============================================================
-const ULTRA_PORT = {
-  IN: { ID:"ULTRA-6a6y6out", MODE:"ULTRA-IN", PORT:"BOOST-IN" },
-  OUT:{ ID:"ULTRA-6a6y6out", MODE:"ULTRA-OUT", PORT:"BOOST-OUT" },
-  flow(x) {
-    return {
-      id: this.IN.ID,
-      mode: this.IN.MODE,
-      in: this.IN.PORT,
-      out: this.OUT.PORT,
-      a: KIT.AXIOM["6a"](x),
-      y: KIT.AXIOM["6y"](x, x),
-      iy: KIT.AXIOM["6iy"](x),
-      outState: KIT.AXIOM["6out"](x),
-      ultra: KIT.ULTRA,
-      axis: "ORG-REORG-NC",
-      state: "ULTRA-PORT"
-    };
-  }
-};
-
-// ======================================================
-// KERNEL RESET · org → reorg · stabil · ALLROUNDER-kompatibel
-// ======================================================
-export function resetKernel(STATE, AXIS, ULTRA_PORT) {
-
-  // 1) arg.sync – Synchronisationspunkt
-  const arg = {
-    sync: true,
-    timestamp: Date.now(),
-    mode: "REORG"
-  };
-
-  // 2) ORG – Ursprungszustand
-  const org = {
-    achsen: 820,
-    connected: false,
-    mode: "ORG",
-    ultra: false,
-    connectTime: 0,
-    lastReset: Date.now(),
-    modeHistory: ["ORG"]
-  };
-
-  // 3) REORG – neuer Zustand
-  const reorg = {
-    ...org,
-    mode: "REORG",
-    ultra: true,
-    sync: arg,
-    resetTime: performance.now(),
-    modeHistory: [...org.modeHistory, "REORG"]
-  };
-
-  // 4) AXIS – sauber neu binden
-  const newAxis = {
-    base: () => reorg.achsen,
-    x: () => Math.min(1500, reorg.achsen * 0.15),
-    y: () => Math.min(1500, reorg.achsen * 0.15),
-    z: () => Math.min(1500, reorg.achsen * 0.10)
-  };
-
-  // 5) ULTRA_PORT – sauber neu binden
-  const newPort = {
-    IN: ULTRA_PORT.IN,
-    OUT: ULTRA_PORT.OUT,
-    flow: (x) => {
-      const base = ULTRA_PORT.flow(x);
-      return {
-        ...base,
-        reset: true,
-        sync: arg.sync,
-        kernel: "REORG"
-      };
-    }
-  };
-
-  // 6) Rückgabe
-  return {
-    state: reorg,
-    axis: newAxis,
-    port: newPort,
-    arg: arg,
-    message: `🔄 KERNEL REORG · ${arg.timestamp} · sync=${arg.sync}`
-  };
+// ─── KERNEL: computeAxes (deine CPU-Logik) ──────────────
+function computeAxes(STATE) {
+  const a = STATE.achsen;
+  if (a <= 300) return a;
+  if (a <= 756) return Math.min(756, 200 + a * 0.1);
+  if (a <= 1000) return Math.min(1000, a);
+  return Math.min(1500, a);
 }
 
+// ─── PREFETCH-KETTE ──────────────────────────────────────
+function prefetchChain(base) {
+  return [3, 9, 27, 81, 243, 729].map(v => ({
+    value: v,
+    scaled: base * (v / 729)
+  }));
+}
 
-// ============================================================
-// CANVAS SETUP
-// ============================================================
-const out = document.getElementById("engineOut");
-const canvas = document.getElementById("orbitCanvas");
-const ctx = canvas.getContext("2d");
-let t = 0;
+// ─── DOM ──────────────────────────────────────────────────
+const consoleEl = document.getElementById('console');
+const deutungEl = document.getElementById('deutung');
+const canvas = document.getElementById('dreamCanvas');
+const ctx = canvas.getContext('2d');
 
-// ============================================================
-// ORBIT-RENDERER — mit AXIS-SCALE und Anime
-// ============================================================
-function renderOrbit(t) {
-  const qAnime = ANIME_QUANT.get(t);
-  const ultraFlow = ULTRA_PORT.flow(t);
+// ─── LOG ──────────────────────────────────────────────────
+function log(msg, type = 'echo') {
+  const time = new Date().toLocaleTimeString();
+  const cls = type === 'dream' ? 'dream' : type === 'wake' ? 'wake' : 'echo';
+  consoleEl.innerHTML += `<div class="${cls}">[${time}] ${msg}</div>`;
+  consoleEl.scrollTop = consoleEl.scrollHeight;
+  if (consoleEl.children.length > 30) consoleEl.removeChild(consoleEl.firstChild);
+}
 
-  ctx.clearRect(0, 0, 500, 500);
+// ─── DEUTUNG ──────────────────────────────────────────────
+function deute(axes) {
+  const chain = prefetchChain(axes);
+  const dream = STATE.dream;
 
-  // ─── Alle Achsen sichtbar zeichnen ───
-const axesCount = Math.min(1500, STATE.achsen);
-  for (let i = 0; i < axesCount; i++) {
-    const angle = (i / axesCount) * Math.PI * 2 + t * 0.001;
-    const dist = 100 + (i / axesCount) * 120;
-    const x = 250 + Math.cos(angle) * dist;
-    const y = 250 + Math.sin(angle) * dist;
-    const alpha = 0.02 + (i / axesCount) * 0.04;
-    ctx.fillStyle = `rgba(255,215,0,${alpha})`;
-    ctx.beginPath();
-    ctx.arc(x, y, 1 + (i / axesCount) * 2, 0, Math.PI * 2);
-    ctx.fill();
-  }
-
-  // ─── Orbit-Punkt mit AXIS.x/y/z ───
-  const cx = 250 + Math.sin(t) * AXIS.x();
-  const cy = 250 + Math.cos(t) * AXIS.y();
-  const radius = AXIS.z() * 0.3 + 10;
-
-  ctx.fillStyle = "#0f0";
-  ctx.beginPath();
-  ctx.arc(cx, cy, radius, 0, Math.PI * 2);
-  ctx.fill();
-
-  // ─── Anime-Bild ───
-  if (qAnime.img.complete && qAnime.img.naturalWidth > 0) {
-    ctx.drawImage(qAnime.img, cx - 40, cy - 40, 80, 80);
+  let text = '';
+  if (dream) {
+    text = `🌙 Der Traum formt die ${axes} Achsen zu einer Pyramide. ` +
+           `Die Kette ${chain.map(c => c.value).join(' → ')} steigt auf. ` +
+           `Jede Zahl ist ein Stein, jede Stufe ein Raum. ` +
+           `Die Spitze: ${chain[chain.length-1].value} — der Kern.`;
   } else {
-    ctx.fillStyle = "#6cf";
-    ctx.font = "12px Consolas";
-    ctx.fillText("🔄 Lade Anime...", cx - 50, cy + 50);
+    text = `🔄 Die ${axes} Achsen legen ein Dreieck in den Raum. ` +
+           `Die Kette ${chain.map(c => c.value).join(' → ')} ist der Pfad. ` +
+           `Dreieck → Pyramide → Traum → Wirklichkeit.`;
   }
-
-  // ─── ULTRA-Port Status ───
-  ctx.fillStyle = "#0f0";
-  ctx.font = "12px Consolas";
-  ctx.fillText("ULTRA: " + ultraFlow.outState.tag, cx - 40, cy + 60);
+  deutungEl.textContent = text;
+  return text;
 }
 
-// ============================================================
-// PX-PC-GHOST VISUALISIERUNG — mit AXIS-SCALE
-// ============================================================
-function renderDevices(t) {
-  const devices = ["PX", "PC", "GHOST"];
-  const baseX = 50;
-  const baseY = 420 + AXIS.z() * 0.1;
+// ─── CANVAS: Dreiecke → Pyramiden ──────────────────────
+function drawDream(t) {
+  const w = canvas.width, h = canvas.height;
+  const cx = w/2, cy = h/2 + 10;
 
-  devices.forEach((dev, i) => {
-    const dx = baseX + i * (150 + AXIS.x() * 0.05);
-    const dy = baseY;
+  ctx.clearRect(0, 0, w, h);
 
-    ctx.fillStyle = STATE.connected ? "#0f0" : "#333";
-    ctx.fillRect(dx, dy, 120, 40);
+  // Hintergrund
+  const grad = ctx.createRadialGradient(cx, cy, 20, cx, cy, w/2);
+  grad.addColorStop(0, '#0a0a1a');
+  grad.addColorStop(0.6, '#050510');
+  grad.addColorStop(1, '#000000');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, w, h);
 
-    ctx.fillStyle = "#0f0";
-    ctx.font = "14px Consolas";
-    ctx.fillText(dev, dx + 10, dy + 25);
+  const axes = computeAxes(STATE);
+  const chain = prefetchChain(axes);
+  const dream = STATE.dream;
 
-    ctx.strokeStyle = STATE.connected ? "#6cf" : "#444";
+  // ─── 3, 9, 27 als Dreieck ───
+  const tri = [3, 9, 27];
+  const triAngles = [0, 1.2, 2.4];
+  const triR = Math.min(w, h) * 0.15;
+
+  tri.forEach((v, i) => {
+    const angle = triAngles[i] + t * 0.002;
+    const x = cx + Math.cos(angle) * triR * (1 + Math.sin(t * 0.01 + i) * 0.05);
+    const y = cy + Math.sin(angle) * triR * (1 + Math.cos(t * 0.01 + i) * 0.05);
+    const size = 8 + (v / 27) * 12;
+
+    // Farbe je nach Wert
+    const colors = ['#ffd700', '#00ccff', '#ff66ff'];
+    ctx.fillStyle = colors[i] + '66';
+    ctx.shadowColor = colors[i];
+    ctx.shadowBlur = dream ? 20 : 5;
+
     ctx.beginPath();
-    ctx.moveTo(dx + 120, dy + 20);
-    ctx.lineTo(dx + 150, dy + 20);
-    ctx.stroke();
+    ctx.arc(x, y, size, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = colors[i];
+    ctx.shadowBlur = 0;
+    ctx.font = '7px Consolas';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'bottom';
+    ctx.fillText(v, x, y - size - 4);
   });
 
-  ctx.strokeStyle = STATE.connected ? "#f0f" : "#222";
-  ctx.beginPath();
-  ctx.moveTo(50, baseY + 40);
-  ctx.lineTo(450, baseY + 40);
-  ctx.stroke();
+  // ─── 81, 243, 729 als Pyramide ───
+  const pyr = [81, 243, 729];
+  const pyrAngles = [0.6, 1.8, 3.0];
+  const pyrR = Math.min(w, h) * 0.22;
+
+  pyr.forEach((v, i) => {
+    const angle = pyrAngles[i] + t * 0.003;
+    const x = cx + Math.cos(angle) * pyrR * (1 + Math.sin(t * 0.015 + i * 2) * 0.06);
+    const y = cy + Math.sin(angle) * pyrR * (1 + Math.cos(t * 0.015 + i * 2) * 0.06);
+    const size = 10 + (v / 729) * 20;
+
+    const colors = ['#00ff88', '#ffd700', '#ff66ff'];
+    ctx.fillStyle = colors[i] + '44';
+    ctx.shadowColor = colors[i];
+    ctx.shadowBlur = dream ? 30 : 8;
+
+    // Pyramide als Quadrat/Raute
+    ctx.beginPath();
+    ctx.moveTo(x, y - size);
+    ctx.lineTo(x + size, y);
+    ctx.lineTo(x, y + size);
+    ctx.lineTo(x - size, y);
+    ctx.closePath();
+    ctx.fill();
+
+    // Linie
+    ctx.strokeStyle = colors[i] + '66';
+    ctx.lineWidth = 0.5;
+    ctx.stroke();
+
+    ctx.fillStyle = colors[i];
+    ctx.shadowBlur = 0;
+    ctx.font = '7px Consolas';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'bottom';
+    ctx.fillText(v, x, y - size - 4);
+  });
+
+  // ─── Verbindungslinien (Traumfaden) ───
+  if (dream) {
+    ctx.strokeStyle = 'rgba(255,215,0,0.06)';
+    ctx.lineWidth = 0.5;
+    ctx.setLineDash([2, 6]);
+    for (let i = 0; i < chain.length - 1; i++) {
+      const a = chain[i];
+      const b = chain[i + 1];
+      // wir zeichnen symbolische Linien zwischen den Werten
+      const angleA = (i / chain.length) * Math.PI * 2 + t * 0.002;
+      const angleB = ((i + 1) / chain.length) * Math.PI * 2 + t * 0.002;
+      const r = Math.min(w, h) * 0.28;
+      const x1 = cx + Math.cos(angleA) * r;
+      const y1 = cy + Math.sin(angleA) * r;
+      const x2 = cx + Math.cos(angleB) * r;
+      const y2 = cy + Math.sin(angleB) * r;
+      ctx.beginPath();
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+      ctx.stroke();
+    }
+    ctx.setLineDash([]);
+  }
+
+  // ─── Titel im Canvas ───
+  ctx.fillStyle = '#3d5a70';
+  ctx.font = '6px Consolas';
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'bottom';
+  ctx.fillText(`AXES: ${axes}  |  DREAM: ${dream ? '🌙' : '☀️'}  |  3→9→27→81→243→729`, 10, h - 8);
 }
 
-// ============================================================
-// ENGINE-KONSOLE — alle Kernel + SLI-RUN-3
-// ============================================================
-function renderConsole(t) {
-  const q = QUANT.atom(t);
-  const syn = SYN.run(t);
-  const quo = QUO.state(t);
-  const pyr = PYRAMIDE.flow(t);
-  const ultra = KIT.pipeline(t);
-  const sliRun3 = SLI_MASTER.ALL([{ N:3, H:1, B:2, T:3 }]);
-
-  out.innerText =
-    "ULTRA-KERNEL ONLINE\n\n" +
-    "QUANT: " + q.atom + "\n" +
-    "SYN:   " + syn.mode + "\n" +
-    "QUO:   " + quo.tag + "\n" +
-    "PYRA:  " + pyr.axis + "\n" +
-    "SLI-RUN3: " + sliRun3[0].core.ENGINE + "\n" +
-    "ULTRA: " + ultra.out.tag + "\n" +
-    "─── ACHSEN ───\n" +
-    "STATE.achsen = " + STATE.achsen + "\n" +
-    "AXIS.x() = " + AXIS.x().toFixed(2) + "\n" +
-    "AXIS.y() = " + AXIS.y().toFixed(2) + "\n" +
-    "AXIS.z() = " + AXIS.z().toFixed(2) + "\n" +
-    "─── KERNEL ───\n" +
-    "MODE: " + STATE.mode + "\n" +
-    "SYNC: " + (STATE.arg?.sync ? "⚡ aktiv" : "⏸ ruhend");
-}
-
-// ============================================================
-// LOOP — alles zusammen
-// ============================================================
-function loop() {
-  t += 0.01;
-  renderOrbit(t);
-  renderDevices(t);
-  renderConsole(t);
-  document.getElementById("axisDisplay").textContent = STATE.achsen;
-  requestAnimationFrame(loop);
-}
-
-// ============================================================
-// CONNECT — Gruppen verbinden
-// ============================================================
-function connectGruppen() {
-  STATE.connected = !STATE.connected;
-  STATE.connectTime = performance.now();
-  out.innerText += "\n🔗 GRUPPEN " + (STATE.connected ? "verbunden" : "getrennt");
-}
-
-function log(msg, channel) {
-  console.log(`[${channel}] ${msg}`);
-  out.innerText += "\n" + msg;
-}
-
+// ─── UI UPDATE ────────────────────────────────────────────
 function updateUI() {
-  out.innerText += "\nUI aktualisiert.";
+  const axes = computeAxes(STATE);
+  document.getElementById('stateAxis').textContent = STATE.achsen;
+  document.getElementById('computedAxis').textContent = axes;
+  document.getElementById('prefetchState').textContent = STATE.dream ? '🌙 träumt' : '⏳ wach';
+
+  // Prefetch-Kette aktualisieren
+  const chain = prefetchChain(axes);
+  const ids = ['p3', 'p9', 'p27', 'p81', 'p243', 'p729'];
+  chain.forEach((c, i) => {
+    const el = document.getElementById(ids[i]);
+    if (el) el.textContent = c.value;
+  });
+
+  deute(axes);
 }
 
-// ============================================================
-// BUTTONS
-// ============================================================
-document.getElementById('btnConnect').addEventListener('click', () => {
-  connectGruppen();
-  log('🔗 GRUPPEN · neu verbunden', 'ds9');
-  updateUI();
-});
-
+// ─── BUTTONS ──────────────────────────────────────────────
 document.getElementById('btnAxisUp').addEventListener('click', () => {
   STATE.achsen = Math.min(1500, STATE.achsen + 100);
-  log(`⬆️ ACHSEN auf ${STATE.achsen} erhöht`, 'achse');
+  log(`⬆️ Achsen auf ${STATE.achsen}`, 'wake');
+  updateUI();
 });
 
 document.getElementById('btnAxisDown').addEventListener('click', () => {
   STATE.achsen = Math.max(100, STATE.achsen - 100);
-  log(`⬇️ ACHSEN auf ${STATE.achsen} reduziert`, 'achse');
+  log(`⬇️ Achsen auf ${STATE.achsen}`, 'wake');
+  updateUI();
 });
 
 document.getElementById('btnReset').addEventListener('click', () => {
   STATE.achsen = 820;
-  STATE.connected = false;
-  log('⟲ RESET · Achsen auf 820', 'flow');
-});
-
-document.getElementById('btnResetKernel').addEventListener('click', () => {
-
-  // 1. Reset ausführen
-  const result = resetKernel(STATE, AXIS, ULTRA_PORT);
-
-  // 2. STATE aktualisieren
-  STATE.achsen = result.state.achsen;
-  STATE.connected = result.state.connected;
-  STATE.mode = result.state.mode;
-  STATE.ultra = result.state.ultra;
-  STATE.arg = result.arg;
-
-  // 3. AXIS neu setzen
-  AXIS.base = result.axis.base;
-  AXIS.x = result.axis.x;
-  AXIS.y = result.axis.y;
-  AXIS.z = result.axis.z;
-
-  // 4. ULTRA_PORT aktualisieren
-  ULTRA_PORT.flow = result.port.flow;
-
-  log(`🔧 ${result.message}`, 'ds9');
-  log(`📐 ACHSEN auf ${STATE.achsen} gesetzt`, 'achse');
+  STATE.dream = false;
+  log('⟲ Reset · Achsen auf 820', 'echo');
   updateUI();
 });
 
+document.getElementById('btnDream').addEventListener('click', () => {
+  STATE.dream = !STATE.dream;
+  log(STATE.dream ? '🌙 Träumen aktiviert' : '☀️ Träumen deaktiviert', 'dream');
+  updateUI();
+});
 
-// ============================================================
-// START
-// ============================================================
+// ─── CANVAS LOOP ──────────────────────────────────────────
+let t = 0;
+function loop() {
+  t += 0.01;
+  drawDream(t);
+  requestAnimationFrame(loop);
+}
+
+// ─── INIT ──────────────────────────────────────────────────
+log('🌙 träumender Prefetch‑Kernel gestartet', 'dream');
+log('📐 3→9→27→81→243→729 · DirektV · Canvas · Pyramiden', 'echo');
+log('⌨️ Steuere Achsen mit +100 / -100 / Reset / Träumen', 'wake');
+updateUI();
 loop();
 
 </script>
