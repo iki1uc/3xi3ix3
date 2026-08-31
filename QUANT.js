@@ -1,63 +1,53 @@
 // ======================================================
-// QUANT.engine — Axiom / Pumpe / Pipeline / NC / Krümmung
+// PYRAMIDE.entkorrektor — iki1uc Final-Kernel
+// Pipelineblitz + RUN3 + PUMPE + ENGINE
 // ======================================================
 
-export const QUANT_ENGINE = {
+export const PYRAMIDE = {
 
-  // --------------------------------------------------
-  // 1) AXIOM — reine Wahrheit
-  // --------------------------------------------------
-  AXIOM(x) {
-    return {
-      tag: "QUANT-AXIOM",
-      value: x,
-      proof: true,
-      axis: "ORG"
-    };
+  // ----------------------------------------------
+  // 1) ORG — Rohachse
+  // ----------------------------------------------
+  ORG(x) {
+    return x;
   },
 
-  // --------------------------------------------------
-  // 2) PUMPE — Antrieb / Kraftstoff
-  // --------------------------------------------------
+  // ----------------------------------------------
+  // 2) REORG — Regelachse
+  // ----------------------------------------------
+  REORG(x) {
+    return x * 0.33;
+  },
+
+  // ----------------------------------------------
+  // 3) NC — Tiefenachse
+  // ----------------------------------------------
+  NC(x) {
+    return x * 0.81;
+  },
+
+  // ----------------------------------------------
+  // 4) PUMPE — Impuls / Antrieb
+  // ----------------------------------------------
   PUMPE(x) {
     const sixCut = x / 6;
-    const curvature = Math.sqrt(x * 6.66);
-
     return {
-      tag: "QUANT-PUMPE",
       sixCut,
-      curvature,
       impulse: sixCut * 0.33,
-      axis: "REORG"
+      orbit: x * 0.33
     };
   },
 
-  // --------------------------------------------------
-  // 3) PIPELINE — Kraftstofffluss
-  // --------------------------------------------------
-  PIPELINE(x) {
+  // ----------------------------------------------
+  // 5) RUN3 — ORG → REORG → NC
+  // ----------------------------------------------
+  RUN3(x) {
     return {
-      tag: "QUANT-PIPELINE",
-      raw: x,
-      org: x * 1,
-      reorg: x * 0.33,
-      nc: x * 0.81,
-      axis: "ORG-REORG-NC"
+      org: this.ORG(x),
+      reorg: this.REORG(x),
+      nc: this.NC(x)
     };
   },
 
-  // --------------------------------------------------
-  // 4) NC-ANTRIEB — Tiefenachse
-  // --------------------------------------------------
-  NC(x) {
-    return {
-      tag: "QUANT-NC",
-      depth: x * 1.5,
-      density: x * 0.81,
-      infinite: x * Infinity,
-      axis: "NC-ORG"
-    };
-  },
-
-  // --------------------------------------------------
-  // 5) KRÜMM
+  // ----------------------------------------------
+  // 6) PIPELINEBLITZ — ultraschneller
