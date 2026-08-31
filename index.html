@@ -56,6 +56,69 @@ import { QUO } from "./QUO.js";
 import { PYRAMIDE } from "./PYRAMIDE.js";
 
 // ============================================================
+// ADAPTER – sorgt dafür, dass alle Aufrufe in der index.html
+// gültig sind, auch wenn Module fehlen oder anders heißen.
+// ============================================================
+
+// ─── SLI_MASTER ───
+const SLI_MASTER = {
+  ALL: (entries) => {
+    if (typeof SLI_RUN3 !== 'undefined') {
+      return SLI_RUN3();
+    }
+    return entries.map(() => ({ core: { ENGINE: "3x3x3" } }));
+  }
+};
+
+// ─── QUANT ───
+const QUANT = {
+  atom: (t) => ({
+    atom: "⚛",
+    index: Math.floor((t * 10) % 9),
+    axis: "QUANT-ATOM"
+  })
+};
+
+// ─── KIT.AXIOM ───
+if (typeof KIT !== 'undefined' && KIT.AXIOM) {
+  const originalAXIOM = KIT.AXIOM;
+  KIT.AXIOM = {
+    "6a": (x) => originalAXIOM(x) || { moment: x, tag: "Augenblick" },
+    "6y": (a, b) => originalAXIOM(a, b) || { compare: [a, b], tag: "so_wie" },
+    "6iy": (x) => originalAXIOM(x) || { state: x, tag: "ist_soll" },
+    "6out": (x) => originalAXIOM(x) || { rise: x, tag: "Aufstieg" }
+  };
+}
+
+// ─── SYN ───
+const SYN = {
+  run: (t) => ({
+    mode: "SYN-RUN",
+    timestamp: Date.now(),
+    axis: "SYN"
+  })
+};
+
+// ─── QUO ───
+const QUO = {
+  state: (t) => ({
+    tag: "QUO-STATE",
+    value: Math.sin(t * 0.1),
+    axis: "QUO"
+  })
+};
+
+// ─── PYRAMIDE ───
+const PYRAMIDE = {
+  flow: (t) => ({
+    axis: "PYRAMIDE-FLOW",
+    value: Math.cos(t * 0.2),
+    mode: "ULTRA"
+  })
+};
+
+  
+// ============================================================
 // STATE — zentrale Konstante für Achsen
 // ============================================================
 const STATE = {
@@ -203,7 +266,7 @@ function renderOrbit(t) {
   ctx.clearRect(0, 0, 500, 500);
 
   // ─── Alle Achsen sichtbar zeichnen ───
-  const axesCount = STATE.achsen;
+const axesCount = Math.min(1500, STATE.achsen);
   for (let i = 0; i < axesCount; i++) {
     const angle = (i / axesCount) * Math.PI * 2 + t * 0.001;
     const dist = 100 + (i / axesCount) * 120;
@@ -358,31 +421,32 @@ document.getElementById('btnReset').addEventListener('click', () => {
   log('⟲ RESET · Achsen auf 820', 'flow');
 });
 
-// ============================================================
-// KERNEL RESET BUTTON — org → reorg mit arg.sync
-// ============================================================
 document.getElementById('btnResetKernel').addEventListener('click', () => {
-  
-  // STATE aktualisieren
+
+  // 1. Reset ausführen
+  const result = resetKernel(STATE, AXIS, ULTRA_PORT);
+
+  // 2. STATE aktualisieren
   STATE.achsen = result.state.achsen;
   STATE.connected = result.state.connected;
   STATE.mode = result.state.mode;
   STATE.ultra = result.state.ultra;
   STATE.arg = result.arg;
-  
-  // AXIS neu setzen (mit korrekter Bindung)
+
+  // 3. AXIS neu setzen
   AXIS.base = result.axis.base;
   AXIS.x = result.axis.x;
   AXIS.y = result.axis.y;
   AXIS.z = result.axis.z;
-  
-  // ULTRA_PORT aktualisieren
+
+  // 4. ULTRA_PORT aktualisieren
   ULTRA_PORT.flow = result.port.flow;
-  
+
   log(`🔧 ${result.message}`, 'ds9');
   log(`📐 ACHSEN auf ${STATE.achsen} gesetzt`, 'achse');
   updateUI();
 });
+
 
 // ============================================================
 // START
