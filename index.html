@@ -43,6 +43,7 @@ import { SYN } from "./SYN.js";
 import { QUANT } from "./QUANT.js";
 import { QUO } from "./QUO.js";
 import { PYRAMIDE } from "./PYRAMIDE.js";
+
 // ======================================================
 // ANIME-QUANT — echte Anime-Bilder aus /anime/
 // ======================================================
@@ -71,148 +72,7 @@ const ANIME_QUANT = {
 };
 
 // ======================================================
-// ANIME-QUANT — NEU
-// ======================================================
-const ANIME_QUANT = {
-  frames: [
-    "ANIME-FRAME-01",
-    "ANIME-FRAME-02",
-    "ANIME-FRAME-03",
-    "ANIME-FRAME-04",
-    "ANIME-FRAME-05",
-    "ANIME-FRAME-06",
-    "ANIME-FRAME-07",
-    "ANIME-FRAME-08",
-    "ANIME-FRAME-09"
-  ],
-  get(t){
-    const idx = Math.floor((t * 10) % this.frames.length);
-    return {
-      anime: this.frames[idx],
-      index: idx,
-      axis: "ANIME-QUANT",
-      mode: "ULTRA-ANIME"
-    };
-  }
-};
-
-// ======================================================
 // ULTRA-PORT — NEU
 // ======================================================
 const ULTRA_PORT = {
-  IN: { ID:"ULTRA-6a6y6out", MODE:"ULTRA-IN", PORT:"BOOST-IN" },
-  OUT:{ ID:"ULTRA-6a6y6out", MODE:"ULTRA-OUT", PORT:"BOOST-OUT" },
-
-  flow(x){
-    return {
-      id: this.IN.ID,
-      mode: this.IN.MODE,
-      in: this.IN.PORT,
-      out: this.OUT.PORT,
-
-      a: KIT.AXIOM["6a"](x),
-      y: KIT.AXIOM["6y"](x, x),
-      iy: KIT.AXIOM["6iy"](x),
-      outState: KIT.AXIOM["6out"](x),
-
-      ultra: KIT.ULTRA,
-      axis: "ORG-REORG-NC",
-      state: "ULTRA-PORT"
-    };
-  }
-};
-
-// ======================================================
-// CANVAS SETUP
-// ======================================================
-const out = document.getElementById("engineOut");
-const canvas = document.getElementById("orbitCanvas");
-const ctx = canvas.getContext("2d");
-
-let t = 0;
-
-// ======================================================
-// ORBIT-RENDERER — NEU
-// ======================================================
-function renderOrbit(t){
-
-  const qAnime = ANIME_QUANT.get(t);
-  const ultraFlow = ULTRA_PORT.flow(t);
-
-  ctx.clearRect(0,0,500,500);
-
-  const x = 250 + Math.sin(t) * 120;
-  const y = 250 + Math.cos(t) * 120;
-
-  ctx.fillStyle = "#0f0";
-  ctx.beginPath();
-  ctx.arc(x, y, 20, 0, Math.PI*2);
-  ctx.fill();
-
-  ctx.fillStyle = "#6cf";
-  ctx.font = "16px Consolas";
-  ctx.fillText(qAnime.anime, x - 40, y - 30);
-
-  ctx.fillStyle = "#0f0";
-  ctx.font = "12px Consolas";
-  ctx.fillText("ULTRA: " + ultraFlow.outState.tag, x - 40, y + 40);
-}
-
-// ======================================================
-// PX-PC-GHOST VISUALISIERUNG — NEU
-// ======================================================
-function renderDevices(t){
-
-  const devices = ["PX","PC","GHOST"];
-  const baseX = 50;
-  const baseY = 420;
-
-  devices.forEach((dev, i) => {
-
-    const dx = baseX + i * 150;
-    const dy = baseY;
-
-    ctx.fillStyle = "#333";
-    ctx.fillRect(dx, dy, 120, 40);
-
-    ctx.fillStyle = "#0f0";
-    ctx.font = "14px Consolas";
-    ctx.fillText(dev, dx + 10, dy + 25);
-
-    ctx.strokeStyle = "#6cf";
-    ctx.beginPath();
-    ctx.moveTo(dx + 120, dy + 20);
-    ctx.lineTo(dx + 150, dy + 20);
-    ctx.stroke();
-  });
-
-  ctx.strokeStyle = "#f0f";
-  ctx.beginPath();
-  ctx.moveTo(50, 460);
-  ctx.lineTo(450, 460);
-  ctx.stroke();
-}
-
-// ======================================================
-// ENGINE-KONSOLE — ALLES AUS DEM REPO
-// ======================================================
-function renderConsole(t){
-
-  const q = QUANT.atom(t);
-  const syn = SYN.run(t);
-  const quo = QUO.state(t);
-  const pyr = PYRAMIDE.flow(t);
-  const ultra = KIT.pipeline(t);
-
-  out.innerText =
-    "ULTRA-KERNEL ONLINE\n\n" +
-    "QUANT: " + q.atom + "\n" +
-    "SYN:   " + syn.mode + "\n" +
-    "QUO:   " + quo.tag + "\n" +
-    "PYRA:  " + pyr.axis + "\n" +
-    "ULTRA: " + ultra.out.tag + "\n";
-}
-
-// ======================================================
-// LOOP — FINAL
-// =================================================
+  IN: { ID:"ULTRA-6a6y6out", MODE:"ULTRA-IN", PORT:"BOOST
