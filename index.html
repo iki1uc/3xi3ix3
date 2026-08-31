@@ -243,13 +243,31 @@ function computeAxes(STATE) {
   return Math.min(1500, a);
 }
 
-// ─── PREFETCH-KETTE ──────────────────────────────────────
+// ─── DORSAKEN-PYRAMIDE ──────────────────────────────────────
+function dorsaken(v) {
+  return Math.sqrt(v) * Math.log(v);
+}
+
+// ─── FORSAKEN-ENGINE (DirectV) ──────────────────────────────
+function forsakenEngine(v) {
+  return {
+    t: Math.sin(v * 0.01),
+    l: Math.cos(v * 0.02),
+    z: v * 0.003,
+    r: (v % 360) * Math.PI/180
+  };
+}
+
+// ─── PREFETCH-KETTE ──────────────────────────────────────────
 function prefetchChain(base) {
   return [3, 9, 27, 81, 243, 729].map(v => ({
     value: v,
-    scaled: base * (v / 729)
+    scaled: base * (v / 729),
+    dorsaken: dorsaken(v),
+    forsaken: forsakenEngine(v)
   }));
 }
+
 
 // ─── DOM ──────────────────────────────────────────────────
 const consoleEl = document.getElementById('console');
