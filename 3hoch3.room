@@ -1,13 +1,17 @@
 {
-  "station": "3hoch3-tmp",
+  "station": "3hoch3",
+  "state": "ORG",
+  "matrix": "3x3",
   "value": 27,
-  "type": "energy-matrix",
+  "energy": "6E",
+  "dimension": "6D",
   "links": {
-    "root": "ULTRA-NC3×3.room",
-    "tensor": "ULTRA-NC9×9.room",
-    "nc": "81.room"
+    "root": "ULTRA-NC3x3.room",
+    "tensor": "ULTRA-NC9x9.room",
+    "cluster": "81.room"
   },
-  "use": "6D-fallback",
+  "fallback": "6D",
   "tmp": true,
-  "sync": true
+  "sync": true,
+  "nc": "NC-ORG"
 }
