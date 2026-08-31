@@ -1,30 +1,63 @@
-// QUANT.js — reine quantisierte Werte
+// ======================================================
+// QUANT.engine — Axiom / Pumpe / Pipeline / NC / Krümmung
+// ======================================================
 
-export const QUANT = {
-  q1: 1,
-  q3: 3,
-  q6: 6,
-  q9: 9,
-  q18: 18,
-  q27: 27,
-  q64: 64,
-  q128: 128
-};
+export const QUANT_ENGINE = {
 
-// QUANT‑Axiome (rein, ohne Bindung)
-export const QUANT_AXIOM = {
-  "6a": x => ({ tag: "6a", value: x }),
-  "6y": x => ({ tag: "6y", compare: x }),
-  "6iy": x => ({ tag: "6iy", state: x }),
-  "6out": x => ({ tag: "6out", rise: x })
-};
+  // --------------------------------------------------
+  // 1) AXIOM — reine Wahrheit
+  // --------------------------------------------------
+  AXIOM(x) {
+    return {
+      tag: "QUANT-AXIOM",
+      value: x,
+      proof: true,
+      axis: "ORG"
+    };
+  },
 
-// QUANT‑Pipeline (rein, ohne Drift)
-export function quantPipeline(x) {
-  return {
-    a: QUANT_AXIOM["6a"](x),
-    y: QUANT_AXIOM["6y"](x),
-    iy: QUANT_AXIOM["6iy"](x),
-    out: QUANT_AXIOM["6out"](x)
-  };
-}
+  // --------------------------------------------------
+  // 2) PUMPE — Antrieb / Kraftstoff
+  // --------------------------------------------------
+  PUMPE(x) {
+    const sixCut = x / 6;
+    const curvature = Math.sqrt(x * 6.66);
+
+    return {
+      tag: "QUANT-PUMPE",
+      sixCut,
+      curvature,
+      impulse: sixCut * 0.33,
+      axis: "REORG"
+    };
+  },
+
+  // --------------------------------------------------
+  // 3) PIPELINE — Kraftstofffluss
+  // --------------------------------------------------
+  PIPELINE(x) {
+    return {
+      tag: "QUANT-PIPELINE",
+      raw: x,
+      org: x * 1,
+      reorg: x * 0.33,
+      nc: x * 0.81,
+      axis: "ORG-REORG-NC"
+    };
+  },
+
+  // --------------------------------------------------
+  // 4) NC-ANTRIEB — Tiefenachse
+  // --------------------------------------------------
+  NC(x) {
+    return {
+      tag: "QUANT-NC",
+      depth: x * 1.5,
+      density: x * 0.81,
+      infinite: x * Infinity,
+      axis: "NC-ORG"
+    };
+  },
+
+  // --------------------------------------------------
+  // 5) KRÜMM
