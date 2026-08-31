@@ -1,40 +1,88 @@
 // ======================================================
-// NC.suite — iki1uc / ULTRA / PUMPE / PIPELINE
+// NC.suite.entkorrektor — iki1uc Final-Kernel
 // ======================================================
 
 export const NC_suite = {
 
-  // --------------------------------------------------
-  // 1) NC — Nicht-Raum / Meta-Masse / Tiefenachse
-  // --------------------------------------------------
-  NC: {
-    tag: "NC",
-    definition: "Nicht-Raum / Meta-Masse / Tiefenachse",
-    axis: "NC-ORG",
-    mass: "Masse = Tiefe * Dichte",
-    depth: x => x * 1.5,
-    density: x => x * 0.81,
-    orbit: x => x * 0.33
+  // ----------------------------------------------
+  // 1) ORG — Rohachse
+  // ----------------------------------------------
+  ORG(x) {
+    return x;
   },
 
-  // --------------------------------------------------
-  // 2) MASSE — NC-Masse (Meta)
-  // --------------------------------------------------
-  MASSE: {
-    tag: "NC-MASSE",
-    calc(x) {
-      return {
-        raw: x,
-        depth: x * 1.5,
-        density: x * 0.81,
-        mass: x * 1.5 * 0.81,
-        axis: "NC-ORG"
-      };
-    }
+  // ----------------------------------------------
+  // 2) REORG — Regelachse
+  // ----------------------------------------------
+  REORG(x) {
+    return x * 0.33;
   },
 
-  // --------------------------------------------------
-  // 3) RAUM — ORG-Raum (sichtbar)
-  // --------------------------------------------------
-  RAUM: {
+  // ----------------------------------------------
+  // 3) NC — Tiefenachse
+  // ----------------------------------------------
+  NC(x) {
+    return x * 0.81;
+  },
 
+  // ----------------------------------------------
+  // 4) MASSE — NC-Masse
+  // ----------------------------------------------
+  MASSE(x) {
+    const depth = x * 1.5;
+    const density = x * 0.81;
+    return {
+      raw: x,
+      depth,
+      density,
+      mass: depth * density
+    };
+  },
+
+  // ----------------------------------------------
+  // 5) RAUM — ORG-Raum
+  // ----------------------------------------------
+  RAUM(x) {
+    return {
+      raw: this.ORG(x),
+      orbit: x * 0.33
+    };
+  },
+
+  // ----------------------------------------------
+  // 6) PUMPE — Impuls
+  // ----------------------------------------------
+  PUMPE(x) {
+    const sixCut = x / 6;
+    return {
+      sixCut,
+      impulse: sixCut * 0.33
+    };
+  },
+
+  // ----------------------------------------------
+  // 7) PIPELINE — ORG → REORG → NC
+  // ----------------------------------------------
+  PIPELINE(x) {
+    return {
+      org: this.ORG(x),
+      reorg: this.REORG(x),
+      nc: this.NC(x)
+    };
+  },
+
+  // ----------------------------------------------
+  // 8) ENGINE — Vollumfang
+  // ----------------------------------------------
+  ENGINE(x) {
+    return {
+      org: this.ORG(x),
+      reorg: this.REORG(x),
+      nc: this.NC(x),
+      masse: this.MASSE(x),
+      raum: this.RAUM(x),
+      pumpe: this.PUMPE(x),
+      pipe: this.PIPELINE(x)
+    };
+  }
+};
