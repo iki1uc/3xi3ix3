@@ -1,1 +1,25 @@
+export const QUANT_SYN = {
+  AXIOM(x) {
+    return x;
+  },
+  SYNC(x) {
+    return {
+      org: ULTRA.ORG(x),
+      reorg: ULTRA.REORG(x),
+      nc: ULTRA.NC(x)
+    };
+  },
+  VECTOR(x) {
+    const s = this.SYNC(x);
+    return [s.org, s.reorg, s.nc];
+  },
+  DICHTUNG(x) {
+    const s = this.SYNC(x);
+    return `
+Axiom: ${s.org}
+Verdichtung: ${s.reorg}
+Tiefe: ${s.nc}
+`;
+  }
+};
 
