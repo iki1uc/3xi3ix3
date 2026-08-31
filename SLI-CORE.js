@@ -1,4 +1,7 @@
-function renderOrbit(t){
+// ======================================================
+// ORBIT-RENDERER — ALLROUNDER · Anime + ULTRA + AXIS
+// ======================================================
+export function renderOrbit(t){
 
   const qAnime = ANIME_QUANT.get(t);
   const ultraFlow = ULTRA_PORT.flow(t);
