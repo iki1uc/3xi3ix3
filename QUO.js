@@ -1,24 +1,32 @@
-// ======================================================
-// ANIME-QUANT — Anime-Frames statt Symbole
-// ======================================================
 const ANIME_QUANT = {
 
   frames: [
-    "ANIME-FRAME-01",
-    "ANIME-FRAME-02",
-    "ANIME-FRAME-03",
-    "ANIME-FRAME-04",
-    "ANIME-FRAME-05",
-    "ANIME-FRAME-06",
-    "ANIME-FRAME-07",
-    "ANIME-FRAME-08",
-    "ANIME-FRAME-09"
+    "img/anime01.png",
+    "img/anime02.png",
+    "img/anime03.png",
+    "img/anime04.png",
+    "img/anime05.png",
+    "img/anime06.png",
+    "img/anime07.png",
+    "img/anime08.png",
+    "img/anime09.png"
   ],
+
+  cache: [],
 
   get(t){
     const idx = Math.floor((t * 10) % this.frames.length);
+
+    // Cache-Bild erzeugen, falls nicht vorhanden
+    if (!this.cache[idx]) {
+      const img = new Image();
+      img.src = this.frames[idx];
+      this.cache[idx] = img;
+    }
+
     return {
       anime: this.frames[idx],
+      img: this.cache[idx],
       index: idx,
       axis: "ANIME-QUANT",
       mode: "ULTRA-ANIME"
