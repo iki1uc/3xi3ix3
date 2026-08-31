@@ -240,7 +240,28 @@ function loop() {
   document.getElementById("axisDisplay").textContent = STATE.achsen;
   requestAnimationFrame(loop);
 }
-
+// ─── KERNEL RESET BUTTON ───
+document.getElementById('btnResetKernel').addEventListener('click', () => {
+  const result = resetKernel(STATE, AXIS, ULTRA_PORT);
+  
+  // STATE aktualisieren
+  STATE.achsen = result.state.achsen;
+  STATE.connected = result.state.connected;
+  STATE.mode = result.state.mode;
+  STATE.ultra = result.state.ultra;
+  
+  // AXIS neu setzen
+  AXIS.base = () => result.state.achsen;
+  AXIS.x = result.axis.x;
+  AXIS.y = result.axis.y;
+  AXIS.z = result.axis.z;
+  
+  // ULTRA_PORT aktualisieren
+  ULTRA_PORT.flow = result.port.flow;
+  
+  log(`🔧 ${result.message}`, 'ds9');
+  updateUI();
+});
 // ============================================================
 // CONNECT — Gruppen verbinden
 // ============================================================
