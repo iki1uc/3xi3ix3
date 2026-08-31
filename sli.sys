@@ -1,0 +1,33 @@
+const PIPELINE = [
+  0,     // Basis
+  1,     // Flow
+  2,     // Engine
+  3,     // Reorg-Raw
+  6,     // Nc-Raw
+  9,     // Arg.Sync Low
+  12,    // Arg.Sync High
+  "pipe",          // Pipeline normal
+  "pipeline.blitz" // Pipeline Meta
+];
+const AXIOM = [
+  "ORG-RAW",
+  "ORG-FLOW",
+  "ORG-ENGINE",
+  "REORG-RAW",
+  "REORG-FLOW",
+  "REORG-ENGINE",
+  "NC-RAW",
+  "NC-FLOW",
+  "NC-ENGINE"
+];
+function buildAxiomPipelineMatrix(){
+  const matrix = [];
+
+  AXIOM.forEach(axiom => {
+    PIPELINE.forEach(pipe => {
+      matrix.push({ axiom, pipe });
+    });
+  });
+
+  return matrix;
+}
