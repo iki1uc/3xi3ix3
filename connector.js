@@ -11,6 +11,7 @@ function log(msg, channel){
 function updateUI(){
   out.innerText += "\nUI aktualisiert.";
 }
+
 const STATE = {
   achsen: 820,
   connected: false,
@@ -18,7 +19,21 @@ const STATE = {
   mode: "ALLROUNDER",
   ultra: true
 };
-"SLI-RUN3: " + sliRun3[0].core.ENGINE + "\n"
-const sliRun3 = SLI_MASTER.ALL([
-  { N:3, H:1, B:2, T:3 }
-]);
+
+// ----------------------------------------------
+// AUTORUN · Startet automatisch beim Laden
+// ----------------------------------------------
+function autorun(){
+  connectGruppen();
+  log("Gruppen verbunden.", "CONNECT");
+
+  const sliRun3 = SLI_MASTER.ALL([
+    { N:3, H:1, B:2, T:3 }
+  ]);
+
+  log("SLI-RUN3: " + sliRun3[0].core.ENGINE, "SLI");
+  updateUI();
+}
+
+// Direkt starten
+autorun();
