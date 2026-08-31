@@ -1,0 +1,54 @@
+// ======================================================
+// KERNEL RESET · org → reorg · mit arg.sync
+// ======================================================
+export function resetKernel(STATE, AXIS, ULTRA_PORT) {
+  
+  // 1. arg.sync – Synchronisationspunkt
+  const arg = {
+    sync: true,
+    timestamp: Date.now(),
+    mode: "REORG"
+  };
+
+  // 2. Alle Achsen auf Ursprung setzen (org)
+  const org = {
+    achsen: 820,
+    connected: false,
+    mode: "ORG",
+    ultra: false
+  };
+
+  // 3. Neue Kernel‑Struktur (reorg)
+  const reorg = {
+    ...org,
+    mode: "REORG",
+    ultra: true,
+    sync: arg,
+    resetTime: performance.now()
+  };
+
+  // 4. AXIS neu berechnen
+  const newAxis = {
+    x: () => Math.min(1500, reorg.achsen * 0.15),
+    y: () => Math.min(1500, reorg.achsen * 0.15),
+    z: () => Math.min(1500, reorg.achsen * 0.10)
+  };
+
+  // 5. ULTRA_PORT zurücksetzen
+  const newPort = {
+    ...ULTRA_PORT,
+    flow: (x) => ({
+      ...ULTRA_PORT.flow(x),
+      reset: true,
+      sync: arg.sync
+    })
+  };
+
+  return {
+    state: reorg,
+    axis: newAxis,
+    port: newPort,
+    arg: arg,
+    message: `🔄 KERNEL REORG · ${arg.timestamp} · sync=${arg.sync}`
+  };
+}
