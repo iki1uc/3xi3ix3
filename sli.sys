@@ -1,14 +1,21 @@
+// ======================================================
+// SLI.SYS — AXIOM × PIPELINE → 9×9 Kernel-Matrix
+// ======================================================
+
+// 9 Pipeline-Stufen
 const PIPELINE = [
-  0,     // Basis
-  1,     // Flow
-  2,     // Engine
-  3,     // Reorg-Raw
-  6,     // Nc-Raw
-  9,     // Arg.Sync Low
-  12,    // Arg.Sync High
+  0,               // Basis
+  1,               // Flow
+  2,               // Engine
+  3,               // Reorg-Raw
+  6,               // Nc-Raw
+  9,               // Arg.Sync Low
+  12,              // Arg.Sync High
   "pipe",          // Pipeline normal
   "pipeline.blitz" // Pipeline Meta
 ];
+
+// 9 AXIOM-Stufen
 const AXIOM = [
   "ORG-RAW",
   "ORG-FLOW",
@@ -20,12 +27,18 @@ const AXIOM = [
   "NC-FLOW",
   "NC-ENGINE"
 ];
-function buildAxiomPipelineMatrix(){
+
+// 9×9 Matrix erzeugen
+export function buildAxiomPipelineMatrix(){
   const matrix = [];
 
   AXIOM.forEach(axiom => {
     PIPELINE.forEach(pipe => {
-      matrix.push({ axiom, pipe });
+      matrix.push({
+        axiom,
+        pipe,
+        key: `${axiom}::${pipe}`
+      });
     });
   });
 
