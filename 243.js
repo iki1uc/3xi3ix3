@@ -1,7 +1,7 @@
 // ======================================================
 // ALLROUNDER · AXIS-SCALE · x / y / z
 // ======================================================
-const AXIS = {
+export const AXIS = {
 
   // Grundwert aus STATE
   base: STATE.achsen,
