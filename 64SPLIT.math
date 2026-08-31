@@ -1,97 +1,26 @@
-// ======================================================
-// 64SPLIT — axiomAlgorithmisierte Version
-// ======================================================
+AXIOM(x) {
+  return x;
+}
+PUMPE(x) {
+  const sixCut = x / 6;
+  const impulse = sixCut * 0.33;
+  return { sixCut, impulse };
+}
+PIPELINE(x) {
+  return {
+    raw: x,
+    org: x,
+    reorg: x * 0.33,
+    nc: x * 0.81
+  };
+}
+axiom: {
+  ORG(x) { return x; }
+},
 
-export const SPLIT128 = {
-
-  // ------------------------------------------------------
-  // AXIOME (Grundlagen)
-  // ------------------------------------------------------
-  axiom: {
-    ORG(x) {
-      return x; // volle Achse, keine Begrenzung
-    },
-    REORG(x) {
-      return Math.min(756, 200 + x * 0.1); // geregelte Achse
-    },
-    NCORG(x) {
-      return Math.min(1500, x); // Meta-Achse
-    }
-  },
-
-  // ------------------------------------------------------
-  // 1) R128 → ORG (quant) + REORG (syn)
-  // ------------------------------------------------------
-  R128(x) {
-    return {
-      org: this.R64_quant(x),
-      reorg: this.R64_syn(x),
-      axis: "R128",
-      frame: "ORG-REORG"
-    };
-  },
-
-  R64_quant(x) {
-    return {
-      tag: "64quant",
-      value: this.axiom.ORG(x),
-      org: true,
-      reorg: false,
-      tmp: false,
-      sync: false,
-      axis: "ORG"
-    };
-  },
-
-  R64_syn(x) {
-    return {
-      tag: "64syn",
-      value: this.axiom.REORG(x),
-      org: false,
-      reorg: true,
-      tmp: true,
-      sync: true,
-      axis: "REORG"
-    };
-  },
-
-  // ------------------------------------------------------
-  // 2) U128 → NC-ORG (6E) ∥ NC-ORG (6D)
-  // ------------------------------------------------------
-  U128(x) {
-    return {
-      "6E": this.U64_6E(x),
-      "6D": this.U64_6D(x),
-      lock: true,        // verhindert Drift
-      parallel: true,    // echte Parallelität
-      axis: "NC-ORG",
-      frame: "NC"
-    };
-  },
-
-  U64_6E(x) {
-    return {
-      tag: "6E",
-      value: this.axiom.NCORG(x),
-      optimize: true,
-      org: true,
-      reorg: false,
-      tmp: false,
-      sync: false,
-      axis: "NC-ORG"
-    };
-  },
-
-  U64_6D(x) {
-    return {
-      tag: "6D",
-      value: this.axiom.NCORG(x),
-      stabilize: true,
-      org: true,
-      reorg: false,
-      tmp: false,
-      sync: true,
-      axis: "NC-ORG"
-    };
-  }
-};
+R128(x) {
+  return {
+    org: this.axiom.ORG(x),
+    axis: "R128"
+  };
+}
