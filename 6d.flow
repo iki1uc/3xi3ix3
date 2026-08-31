@@ -1,42 +1,49 @@
-{
-  "station": "3hoch3",
-  "state": "ORG",
-  "matrix": "3x3",
-  "value": 27,
+function resolve6DFlow(room) {
+  const is6D = room.dimension === "6D";
+  const g6   = room.pump.six === room.value * 6;
+  const ultra = room.mass.ultra > room.mass.org;
+  const depth = room.nc.depth.replace("T", "");
 
-  "energy": "6E",          // Impuls-Achse
-  "dimension": "6D",       // Raumkrümmung
+  let name = "6d.flow";
 
-  "mass": {
-    "org": 27,             // ORG-Masse
-    "ultra": 81,           // ULTRA-Masse (Cluster)
-    "delta": 54            // Masse gegen Masse (Differenz)
-  },
+  if (depth) name += `.t${depth}`;
+  if (g6)    name += `.g6`;
+  if (ultra) name += `.ultra`;
 
-  "pump": {
-    "root": "sqrt(27)",    // Wurzel-Pumpe
-    "curve": "sin(27*0.33)",
-    "warp": "cos(27*0.66)",
-    "six": 162             // 27 * 6 (goldene 6)
-  },
+  return name;
+}
+function G6ForsakenPyramideTMP(room, t) {
 
-  "pipeline": {
-    "root": "ULTRA-NC3x3.room",
-    "tensor": "ULTRA-NC9x9.room",
-    "cluster": "81.room",
-    "flow": "ORG -> NC -> ULTRA"
-  },
+  // Forsaken Immediate Mode
+  const forsaken = {
+    rot: Math.sin(t * 0.01),
+    warp: Math.cos(t * 0.02),
+    depth: room.mass.ultra - room.mass.org,
+    impulse: room.value * 0.33
+  };
 
-  "nc": {
-    "axis": "NC-ORG",
-    "depth": "T3",
-    "height": "H1",
-    "breadth": "B2"
-  },
+  // Goldene 6
+  const g6 = room.pump.six === room.value * 6;
 
-  "sync": true,
-  "tmp": true,
-  "fallback": "6D",
+  // TMP/RAR → leichte Version
+  const tmp = {
+    root: Math.sqrt(room.value),
+    curve: Math.sin(room.value * 0.33),
+    warp: Math.cos(room.value * 0.66)
+  };
 
-  "kernel": "ORG-PUMP-PIPE-NC-ULTRA"
+  // Pyramidenwerte
+  const pyr = [81, 243, 729].map(v => ({
+    value: v,
+    rot: forsaken.rot * (v / 729),
+    warp: forsaken.warp * (v / 729),
+    g6boost: g6 ? v * 0.06 : v * 0.01
+  }));
+
+  return {
+    name: resolve6DFlow(room),
+    forsaken,
+    tmp,
+    pyr
+  };
 }
