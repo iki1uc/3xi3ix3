@@ -1,20 +1,18 @@
-function resolve6DFlow(room) {
-  const is6D = room.dimension === "6D";
-  const g6   = room.pump.six === room.value * 6;
-  const ultra = room.mass.ultra > room.mass.org;
-  const depth = room.nc.depth.replace("T", "");
-
-  let name = "6d.flow";
-
-  if (depth) name += `.t${depth}`;
-  if (g6)    name += `.g6`;
-  if (ultra) name += `.ultra`;
-
-  return name;
-}
+[81, 243, 729].map(v => ({
+  value: v,
+  rot: forsaken.rot * (v / 729),
+  warp: forsaken.warp * (v / 729),
+  g6boost: g6 ? v * 0.06 : v * 0.01
+}));
+root: Math.sqrt(room.value),
+curve: Math.sin(room.value * 0.33),
+warp: Math.cos(room.value * 0.66)
+rot: Math.sin(t * 0.01),
+warp: Math.cos(t * 0.02),
+depth: room.mass.ultra - room.mass.org,
+impulse: room.value * 0.33
 function G6ForsakenPyramideTMP(room, t) {
 
-  // Forsaken Immediate Mode
   const forsaken = {
     rot: Math.sin(t * 0.01),
     warp: Math.cos(t * 0.02),
@@ -22,17 +20,14 @@ function G6ForsakenPyramideTMP(room, t) {
     impulse: room.value * 0.33
   };
 
-  // Goldene 6
   const g6 = room.pump.six === room.value * 6;
 
-  // TMP/RAR → leichte Version
   const tmp = {
     root: Math.sqrt(room.value),
     curve: Math.sin(room.value * 0.33),
     warp: Math.cos(room.value * 0.66)
   };
 
-  // Pyramidenwerte
   const pyr = [81, 243, 729].map(v => ({
     value: v,
     rot: forsaken.rot * (v / 729),
@@ -46,4 +41,18 @@ function G6ForsakenPyramideTMP(room, t) {
     tmp,
     pyr
   };
+}
+function resolve6DFlow(room) {
+  const is6D = room.dimension === "6D";
+  const g6   = room.pump.six === room.value * 6;
+  const ultra = room.mass.ultra > room.mass.org;
+  const depth = room.nc.depth.replace("T", "");
+
+  let name = "6d.flow";
+
+  if (depth) name += `.t${depth}`;
+  if (g6)    name += `.g6`;
+  if (ultra) name += `.ultra`;
+
+  return name;
 }
