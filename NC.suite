@@ -1,0 +1,40 @@
+// ======================================================
+// NC.suite — iki1uc / ULTRA / PUMPE / PIPELINE
+// ======================================================
+
+export const NC_suite = {
+
+  // --------------------------------------------------
+  // 1) NC — Nicht-Raum / Meta-Masse / Tiefenachse
+  // --------------------------------------------------
+  NC: {
+    tag: "NC",
+    definition: "Nicht-Raum / Meta-Masse / Tiefenachse",
+    axis: "NC-ORG",
+    mass: "Masse = Tiefe * Dichte",
+    depth: x => x * 1.5,
+    density: x => x * 0.81,
+    orbit: x => x * 0.33
+  },
+
+  // --------------------------------------------------
+  // 2) MASSE — NC-Masse (Meta)
+  // --------------------------------------------------
+  MASSE: {
+    tag: "NC-MASSE",
+    calc(x) {
+      return {
+        raw: x,
+        depth: x * 1.5,
+        density: x * 0.81,
+        mass: x * 1.5 * 0.81,
+        axis: "NC-ORG"
+      };
+    }
+  },
+
+  // --------------------------------------------------
+  // 3) RAUM — ORG-Raum (sichtbar)
+  // --------------------------------------------------
+  RAUM: {
+
