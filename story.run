@@ -1,0 +1,7 @@
+RUN3(x, story) {
+  return {
+    org: this.ORG(x),
+    reorg: this.REORG(x / story.reorg),
+    nc: this.NC(x)
+  };
+}
