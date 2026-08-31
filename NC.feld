@@ -1,98 +1,75 @@
 // ======================================================
-// NC.feld — iki1uc TRANSWARB-Relevanzfeld (ULTRA)
+// NC.feld.entkorrektor — iki1uc Final-Kernel
 // ======================================================
 
 export const NC_feld = {
 
-  // --------------------------------------------------
-  // 1) CONTINUUM — OST / WEST / NORD / SÜD
-  // --------------------------------------------------
-  CONTINUUM: {
-
-    NORD: {
-      axis: "+Y",
-      mode: "VERDICHTUNG",
-      chain: [27, 81],
-      bind: "AIR",
-      axisType: "NC-ORG"
-    },
-
-    SÜD: {
-      axis: "-Y",
-      mode: "ABLEITUNG",
-      chain: [81, 27, 3],
-      bind: "6E6D",
-      axisType: "NC-ORG"
-    },
-
-    OST: {
-      axis: "+X",
-      mode: "EXPANSION",
-      chain: [3, 9, 27],
-      bind: "XyX",
-      axisType: "ORG"
-    },
-
-    WEST: {
-      axis: "-X",
-      mode: "KONTRAKTION",
-      chain: [27, 9, 3],
-      bind: "AIV",
-      axisType: "REORG"
-    },
-
-    PREFETCH: {
-      window3x2: [
-        [3, 9],
-        [27, 81],
-        [243, 729]
-      ],
-      sync: true,
-      mode: "ULTRA",
-      axisType: "ORG-REORG-NC"
-    }
+  // ----------------------------------------------
+  // 1) ORG — Rohachse
+  // ----------------------------------------------
+  ORG(x) {
+    return x;
   },
 
-  // --------------------------------------------------
-  // 2) Ableitung 3e = XyX + AIR + AIV (REORG)
-  // --------------------------------------------------
-  derive(XyX, AIR, AIV) {
+  // ----------------------------------------------
+  // 2) REORG — Regelachse
+  // ----------------------------------------------
+  REORG(x) {
+    return x * 0.33;
+  },
+
+  // ----------------------------------------------
+  // 3) NC — Tiefenachse
+  // ----------------------------------------------
+  NC(x) {
+    return x * 0.81;
+  },
+
+  // ----------------------------------------------
+  // 4) RUN-3 — ORG → REORG → NC
+  // ----------------------------------------------
+  RUN3(x) {
     return {
-      tag: "3e",
-      value: XyX + AIR + AIV,
-      axis: "REORG"
+      org: this.ORG(x),
+      reorg: this.REORG(x),
+      nc: this.NC(x)
     };
   },
 
-  // --------------------------------------------------
-  // 3) Verdichtungskette (3 → 27 → 81 → 243 → 729)
-  // --------------------------------------------------
-  chain(x = 3) {
+  // ----------------------------------------------
+  // 5) CONTINUUM — entkorrigiert
+  // ----------------------------------------------
+  CONTINUUM(x) {
+    const run = this.RUN3(x);
+
     return {
-      base: x,
-      cube3: x ** 3,     // 27
-      nc: 81,            // NC.feld
-      expand: 81 * 3,    // 243
-      cube9: 9 ** 3,     // 729
-      axis: "NC-ORG"
+      ost:  run.org,
+      west: run.reorg,
+      nord: run.nc,
+      sued: run.nc,
+      prefetch: run
     };
   },
 
-  // --------------------------------------------------
-  // 4) NC.feld = 81 / 3e (NC-ORG)
-  // --------------------------------------------------
-  field(threeE) {
+  // ----------------------------------------------
+  // 6) FIELD — NC-Feld
+  // ----------------------------------------------
+  FIELD(x) {
     return {
-      tag: "NC.feld",
-      value: 81 / threeE,
-      axis: "NC-ORG"
+      nc_feld: this.NC(x),
+      org_feld: this.ORG(x),
+      reorg_feld: this.REORG(x)
     };
   },
 
-  // --------------------------------------------------
-  // 5) TRANSWARB — Beweisfeld (ULTRA)
-  // --------------------------------------------------
-  TRANSWARB(x = 27) {
-
-    const chain = this.chain(x);
-    const threeE = this.derive(3, 9, 27).value;
+  // ----------------------------------------------
+  // 7) INTEGRITY — Vollumfang
+  // ----------------------------------------------
+  INTEGRITY(x) {
+    return {
+      run3: this.RUN3(x),
+      continuum: this.CONTINUUM(x),
+      field: this.FIELD(x)
+    };
+  }
+};
