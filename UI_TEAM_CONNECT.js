@@ -4,17 +4,33 @@ const TEAMS = {
   3: { name: "Team 3", members: [], pipeline: null }
 };
 
-function connectTeam(id){
-  TEAMS[id].connected = true;
-  TEAMS[id].connectTime = performance.now();
-  log(`🔗 ${TEAMS[id].name} verbunden`, "TEAM");
+// 3×3 AXIOM: [ORG, REORG, NCORG] × [RAW, FLOW, ENGINE]
+
+const AXIOM = {
+  axes: ["ORG", "REORG", "NCORG"],
+  layers: ["RAW", "FLOW", "ENGINE"],
+  matrix(){
+    const out = [];
+    this.axes.forEach(axis => {
+      this.layers.forEach(layer => {
+        out.push({ axis, layer });
+      });
+    });
+    return out;
+  }
+};
+
+function connectAxiom(){
+  const axiomMatrix = AXIOM.matrix();
+  log("🔗 AXIOM 3×3 aktiviert", "AXIOM");
+
+  axiomMatrix.forEach(entry => {
+    log(`→ ${entry.axis}-${entry.layer}`, "AXIOM");
+  });
+
+  updateUI();
 }
 
-function assignPipeline(id, pipe){
-  TEAMS[id].pipeline = pipe;
-  log(`PIPELINE → ${TEAMS[id].name}`, "PIPE");
-}
-
-document.getElementById('btnTeam1').addEventListener('click', () => connectTeam(1));
-document.getElementById('btnTeam2').addEventListener('click', () => connectTeam(2));
-document.getElementById('btnTeam3').addEventListener('click', () => connectTeam(3));
+document.getElementById('btnConnect').addEventListener('click', () => {
+  connectAxiom();
+});
