@@ -2,7 +2,12 @@
 // SLI.js · ALLROUNDER ENGINE
 // ======================================================
 
-// AXIS-SCALE — x / y / z
+import { KIT } from "./kit.js";
+import { SLI_PORT } from "./SLI-CORE.js";
+
+// ======================================================
+// AXIS — zentrale Skalierung
+// ======================================================
 export const AXIS = {
   base: (STATE) => STATE.achsen,
   x:   (STATE) => Math.min(1500, STATE.achsen * 0.15),
@@ -10,14 +15,16 @@ export const AXIS = {
   z:   (STATE) => Math.min(1500, STATE.achsen * 0.10)
 };
 
-// SLI-RUN-3
+// ======================================================
+// SLI-RUN-3 — Engine-Kern
+// ======================================================
 export function SLI_RUN3() {
-  return [
-    { core: { ENGINE: "3x3x3" } }
-  ];
+  return SLI_MASTER.ALL([{ N:3, H:1, B:2, T:3 }]);
 }
 
-// ORBIT-RENDERER
+// ======================================================
+// ORBIT-RENDERER — Anime + ULTRA + AXIS
+// ======================================================
 export function renderOrbit(ctx, STATE, ANIME_QUANT, ULTRA_PORT, t) {
 
   const qAnime = ANIME_QUANT.get(t);
@@ -57,7 +64,9 @@ export function renderOrbit(ctx, STATE, ANIME_QUANT, ULTRA_PORT, t) {
   ctx.fillText("ULTRA: " + ultraFlow.outState.tag, cx - 40, cy + 60);
 }
 
-// PX-PC-GHOST
+// ======================================================
+// PX-PC-GHOST — Geräte-Cluster
+// ======================================================
 export function renderDevices(ctx, STATE) {
 
   const devices = ["PX", "PC", "GHOST"];
@@ -88,4 +97,93 @@ export function renderDevices(ctx, STATE) {
   ctx.lineTo(450, baseY + 40);
   ctx.stroke();
 }
+
+// ======================================================
+// ENGINE-KONSOLE — QUANT / SYN / QUO / PYRA / ULTRA / SLI
+// ======================================================
+export function renderConsole(out, STATE, QUANT, SYN, QUO, PYRAMIDE, KIT, SLI_RUN3, t) {
+
+  const q = QUANT.atom(t);
+  const syn = SYN.run(t);
+  const quo = QUO.state(t);
+  const pyr = PYRAMIDE.flow(t);
+  const ultra = KIT.pipeline(t);
+  const sli = SLI_RUN3();
+
+  out.innerText =
+    "ULTRA-KERNEL ONLINE\n\n" +
+    "QUANT: " + q.atom + "\n" +
+    "SYN:   " + syn.mode + "\n" +
+    "QUO:   " + quo.tag + "\n" +
+    "PYRA:  " + pyr.axis + "\n" +
+    "SLI-RUN3: " + sli[0].core.ENGINE + "\n" +
+    "ULTRA: " + ultra.out.tag + "\n" +
+    "─── ACHSEN ───\n" +
+    "STATE.achsen = " + STATE.achsen + "\n" +
+    "AXIS.x() = " + AXIS.x(STATE).toFixed(2) + "\n" +
+    "AXIS.y() = " + AXIS.y(STATE).toFixed(2) + "\n" +
+    "AXIS.z() = " + AXIS.z(STATE).toFixed(2) + "\n" +
+    "─── KERNEL ───\n" +
+    "MODE: " + STATE.mode + "\n" +
+    "SYNC: " + (STATE.arg?.sync ? "⚡ aktiv" : "⏸ ruhend");
+}
+
+// ======================================================
+// KERNEL RESET — ORG → REORG
+// ======================================================
 export function resetKernel(STATE, AXIS, ULTRA_PORT) {
+
+  const arg = {
+    sync: true,
+    timestamp: Date.now(),
+    mode: "REORG"
+  };
+
+  const org = {
+    achsen: 820,
+    connected: false,
+    mode: "ORG",
+    ultra: false,
+    connectTime: 0,
+    lastReset: Date.now(),
+    modeHistory: ["ORG"]
+  };
+
+  const reorg = {
+    ...org,
+    mode: "REORG",
+    ultra: true,
+    sync: arg,
+    resetTime: performance.now(),
+    modeHistory: [...org.modeHistory, "REORG"]
+  };
+
+  const newAxis = {
+    base: () => reorg.achsen,
+    x: () => Math.min(1500, reorg.achsen * 0.15),
+    y: () => Math.min(1500, reorg.achsen * 0.15),
+    z: () => Math.min(1500, reorg.achsen * 0.10)
+  };
+
+  const newPort = {
+    IN: ULTRA_PORT.IN,
+    OUT: ULTRA_PORT.OUT,
+    flow: (x) => {
+      const base = ULTRA_PORT.flow(x);
+      return {
+        ...base,
+        reset: true,
+        sync: arg.sync,
+        kernel: "REORG"
+      };
+    }
+  };
+
+  return {
+    state: reorg,
+    axis: newAxis,
+    port: newPort,
+    arg: arg,
+    message: `🔄 KERNEL REORG · ${arg.timestamp} · sync=${arg.sync}`
+  };
+}
