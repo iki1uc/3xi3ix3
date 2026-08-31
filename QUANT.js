@@ -1,53 +1,33 @@
-// ======================================================
-// PYRAMIDE.entkorrektor — iki1uc Final-Kernel
-// Pipelineblitz + RUN3 + PUMPE + ENGINE
-// ======================================================
+PIPELINEBLITZ(x) {
+  const run = this.RUN3(x);
+  const pump = this.PUMPE(x);
 
-export const PYRAMIDE = {
+  // 1/3‑tel Verteilung
+  const third = x / 3;
 
-  // ----------------------------------------------
-  // 1) ORG — Rohachse
-  // ----------------------------------------------
-  ORG(x) {
-    return x;
-  },
+  // Rotation (einfacher sinus-basierter Wirbel)
+  const rotation = Math.sin(x * 0.033) * third;
 
-  // ----------------------------------------------
-  // 2) REORG — Regelachse
-  // ----------------------------------------------
-  REORG(x) {
-    return x * 0.33;
-  },
+  // Krümmung (Tiefenachse beeinflusst Form)
+  const curvature = run.nc * 0.13;
 
-  // ----------------------------------------------
-  // 3) NC — Tiefenachse
-  // ----------------------------------------------
-  NC(x) {
-    return x * 0.81;
-  },
+  return {
+    raw: x,
+    org: run.org,
+    reorg: run.reorg,
+    nc: run.nc,
 
-  // ----------------------------------------------
-  // 4) PUMPE — Impuls / Antrieb
-  // ----------------------------------------------
-  PUMPE(x) {
-    const sixCut = x / 6;
-    return {
-      sixCut,
-      impulse: sixCut * 0.33,
-      orbit: x * 0.33
-    };
-  },
+    // Pumpe
+    pumpe: pump,
+    impulse: pump.impulse,
+    sixCut: pump.sixCut,
 
-  // ----------------------------------------------
-  // 5) RUN3 — ORG → REORG → NC
-  // ----------------------------------------------
-  RUN3(x) {
-    return {
-      org: this.ORG(x),
-      reorg: this.REORG(x),
-      nc: this.NC(x)
-    };
-  },
+    // neue Form‑Dynamik
+    third,
+    rotation,
+    curvature,
 
-  // ----------------------------------------------
-  // 6) PIPELINEBLITZ — ultraschneller
+    // Wirbelwind‑Achse
+    wirbel: rotation + curvature
+  };
+}
