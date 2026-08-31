@@ -1,5 +1,5 @@
 // ------------------------------------------------------
-// 6) SLI-PORT — BOOST-IN / BOOST-OUT
+// 6) SLI-PORT — BOOST-IN / BOOST-OUT (NEU)
 // ------------------------------------------------------
 export const SLI_PORT = {
 
