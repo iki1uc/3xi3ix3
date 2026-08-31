@@ -1,39 +1,71 @@
 // ======================================================
-// ALLROUNDER · AXIS-SCALE · x / y / z
+// SLI.js · ALLROUNDER ENGINE
 // ======================================================
+
+// AXIS-SCALE — x / y / z
 export const AXIS = {
-
-  base(){
-    return STATE.achsen;
-  },
-
-  x(){
-    return Math.min(1500, this.base() * 0.15);
-  },
-
-  y(){
-    return Math.min(1500, this.base() * 0.15);
-  },
-
-  z(){
-    return Math.min(1500, this.base() * 0.10);
-  }
+  base: (STATE) => STATE.achsen,
+  x:   (STATE) => Math.min(1500, STATE.achsen * 0.15),
+  y:   (STATE) => Math.min(1500, STATE.achsen * 0.15),
+  z:   (STATE) => Math.min(1500, STATE.achsen * 0.10)
 };
-export const sliRun3 = SLI_MASTER.ALL([
-  { N:3, H:1, B:2, T:3 }
-]);
-// ======================================================
-// PX-PC-GHOST VISUALISIERUNG — ALLROUNDER
-// ======================================================
-export function renderDevices(t){
 
-  const devices = ["PX","PC","GHOST"];
+// SLI-RUN-3
+export function SLI_RUN3() {
+  return [
+    { core: { ENGINE: "3x3x3" } }
+  ];
+}
+
+// ORBIT-RENDERER
+export function renderOrbit(ctx, STATE, ANIME_QUANT, ULTRA_PORT, t) {
+
+  const qAnime = ANIME_QUANT.get(t);
+  const ultraFlow = ULTRA_PORT.flow(t);
+
+  ctx.clearRect(0, 0, 500, 500);
+
+  const axesCount = STATE.achsen;
+
+  for (let i = 0; i < axesCount; i++) {
+    const angle = (i / axesCount) * Math.PI * 2 + t * 0.001;
+    const dist = 100 + (i / axesCount) * 120;
+    const x = 250 + Math.cos(angle) * dist;
+    const y = 250 + Math.sin(angle) * dist;
+    const alpha = 0.02 + (i / axesCount) * 0.04;
+    ctx.fillStyle = `rgba(255,215,0,${alpha})`;
+    ctx.beginPath();
+    ctx.arc(x, y, 1 + (i / axesCount) * 2, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  const cx = 250 + Math.sin(t) * AXIS.x(STATE);
+  const cy = 250 + Math.cos(t) * AXIS.y(STATE);
+  const radius = AXIS.z(STATE) * 0.3 + 10;
+
+  ctx.fillStyle = "#0f0";
+  ctx.beginPath();
+  ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+  ctx.fill();
+
+  if (qAnime.img.complete && qAnime.img.naturalWidth > 0) {
+    ctx.drawImage(qAnime.img, cx - 40, cy - 40, 80, 80);
+  }
+
+  ctx.fillStyle = "#0f0";
+  ctx.font = "12px Consolas";
+  ctx.fillText("ULTRA: " + ultraFlow.outState.tag, cx - 40, cy + 60);
+}
+
+// PX-PC-GHOST
+export function renderDevices(ctx, STATE) {
+
+  const devices = ["PX", "PC", "GHOST"];
   const baseX = 50;
-  const baseY = 420 + AXIS.z() * 0.1;
+  const baseY = 420 + AXIS.z(STATE) * 0.1;
 
   devices.forEach((dev, i) => {
-
-    const dx = baseX + i * (150 + AXIS.x() * 0.05);
+    const dx = baseX + i * (150 + AXIS.x(STATE) * 0.05);
     const dy = baseY;
 
     ctx.fillStyle = STATE.connected ? "#0f0" : "#333";
