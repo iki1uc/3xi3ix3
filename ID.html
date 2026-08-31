@@ -1,48 +1,70 @@
+// ======================================================
+// INHALTmithalt — iki1uc / ULTRA / kohärent richtig
+// ======================================================
+
 export const INHALTmithalt = {
 
-  // 1) RESPO-S Rotation
+  // --------------------------------------------------
+  // 1) RESPO-S Rotation (ORG)
+  // --------------------------------------------------
   rotation: ["DA", "NE", "BEN", "AI", "IX", "XI", "DA"],
+  axis_rotation: "ORG",
 
-  // 2) MRON Bindung
+  // --------------------------------------------------
+  // 2) MRON Bindung (REORG)
+  // --------------------------------------------------
   MRON: {
     TP3: "DA",
     TP6: "NE",
     TP9: "BEN",
-    TPK: ["AI", "IX", "XI"]
+    TPK: ["AI", "IX", "XI"],
+    axis: "REORG"
   },
 
-  // 3) KI-RESPO-333 Impuls
+  // --------------------------------------------------
+  // 3) KI-RESPO-333 Impuls (NC-ORG)
+  // --------------------------------------------------
   impulse333: ["DA", "NE", "BEN"],
+  axis_impulse: "NC-ORG",
 
-  // 4) Wurzel-Engine
+  // --------------------------------------------------
+  // 4) Wurzel-Engine (ORG)
+  // --------------------------------------------------
   wurzel: {
     root81: 9,
-    root9: 3
+    root9: 3,
+    axis: "ORG"
   },
 
-  // 5) ID.html Matrix-Bindung
+  // --------------------------------------------------
+  // 5) ID.html Matrix-Bindung (REORG → NC-ORG)
+  // --------------------------------------------------
   matrix: {
-    HY: ["◉", 3, 9, "◎", 81, 3],
-    PE: ["◉", 9, "◎", 81, "◆", "△", "▣"],
-    PER: [3, 9, 81, "◆", 756, "△", 27, "▣", 3],
+    HY:    ["◉", 3, 9, "◎", 81, 3],
+    PE:    ["◉", 9, "◎", 81, "◆", "△", "▣"],
+    PER:   [3, 9, 81, "◆", 756, "△", 27, "▣", 3],
     TRANS: ["◎", 81, "◆", "△"],
-    WARB: [81, "◆", "△", 27],
+    WARB:  [81, "◆", "△", 27],
     KANAL: [756, "△", 27, "▣"],
     TMP: {
       alpha: [3, "◎", 27],
-      beta: [9, 81, "▣"],
+      beta:  [9, 81, "▣"],
       gamma: ["◆", 756, "△"]
-    }
+    },
+    axis: "REORG-NC"
   },
 
-  // 6) INHALT-Kern
-  kernel() {
-    return {
-      rotation: this.rotation,
-      mron: this.MRON,
-      impulse: this.impulse333,
-      wurzel: this.wurzel,
-      matrix: this.matrix
-    };
-  }
-};
+  // --------------------------------------------------
+  // 6) SENSATION — Motor / Cache / Impulse (ORG-REORG-NC)
+  // --------------------------------------------------
+  SENSATION: {
+    motor: "SENSATION.MOTOR",
+    cache: "SENSATION.CACHE",
+    impulse: "SENSATION.IMPULSE",
+    full: true,
+    sync: true,
+    axis: "ORG-REORG-NC"
+  },
+
+  // --------------------------------------------------
+  // 7) INHALT-Kern — Vollumfang
