@@ -19,7 +19,7 @@ export const SLI_PORT = {
     return {
       id: this.IN.ID,
       mode: this.IN.MODE,
-
+ 
       in: this.IN.PORT,
       out: this.OUT.PORT,
 
