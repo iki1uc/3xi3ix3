@@ -45,3 +45,6 @@ export const SLI_PORT = {
     };
   }
 };
+const sliRun3 = SLI_MASTER.ALL([
+  { N:3, H:1, B:2, T:3 }
+]);
