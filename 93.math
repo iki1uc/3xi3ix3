@@ -1,49 +1,34 @@
 // ======================================================
-// PREFETCH — iki1uc / ULTRA / kohärent richtig
+// PREFETCH.entkorrektor — iki1uc Final-Kernel
 // ======================================================
 
 export const PREFETCH = {
 
-  // --------------------------------------------------
-  // 0) INHALTmithalt — Energie-Kern (ORG)
-  // --------------------------------------------------
-  INHALT: {
-    rotation: ["DA", "NE", "BEN", "AI", "IX", "XI", "DA"],
-    impulse333: ["DA", "NE", "BEN"],
-    wurzel: { root81: 9, root9: 3 },
-    axis: "ORG"
+  // ----------------------------------------------
+  // 1) ORG — Rohschicht
+  // ----------------------------------------------
+  ORG(x) {
+    return x;
   },
 
-  // --------------------------------------------------
-  // 1) MRON — Achsenbindung (REORG)
-  // --------------------------------------------------
-  MRON: {
-    TP3: "DA",
-    TP6: "NE",
-    TP9: "BEN",
-    TP27: "AI",
-    TP12: "IX",
-    TPK: ["AI", "IX", "XI"],
-    axis: "REORG"
+  // ----------------------------------------------
+  // 2) REORG — Regelung
+  // ----------------------------------------------
+  REORG(x) {
+    return x * 0.33;
   },
 
-  // --------------------------------------------------
-  // 2) ID-Stationen — Energie-Map (ORG → REORG)
-  // --------------------------------------------------
-  ID: {
-    "3":   { tp: "TP3",  role: "Basisdimension", axis: "ORG" },
-    "9":   { tp: "TP9",  role: "Wurzelraum",     axis: "ORG" },
-    "27":  { tp: "TP27", role: "Energie-Matrix", axis: "REORG" },
-    "6":   { tp: "TP6",  role: "Dual-Form",      axis: "REORG" },
-    "12":  { tp: "TP12", role: "Tensor-Quadrat", axis: "NC-ORG" },
-    "6E":  { tp: "TPK",  role: "RESPO-Bridge",   axis: "NC-ORG" }
+  // ----------------------------------------------
+  // 3) NC — Tiefenachse
+  // ----------------------------------------------
+  NC(x) {
+    return x * 0.81;
   },
 
-  // --------------------------------------------------
-  // 3) CONTINUUM — OST/WEST/NORD/SÜD (NC-ORG)
-  // --------------------------------------------------
-  CONTINUUM: {
-    OST:  { axis: "+X", chain: [3, 9, 27], bind: "XyX",  layer: "ORG" },
-    WEST: { axis: "-X", chain: [27, 9, 3], bind: "AIV",  layer: "REORG" },
-    NORD: { axis: "+Y", chain: [27, 81],   bind: "AIR",  layer: "NC-ORG" },
-    SÜD:  { axis: "-Y", chain
+  // ----------------------------------------------
+  // 4) RUN-3 — ORG → REORG → NC
+  // ----------------------------------------------
+  RUN3(x) {
+    return {
+      org: this.ORG(x),
+      reorg: this.REORG(x
