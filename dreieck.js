@@ -3,7 +3,7 @@ export const ENGINE_6E6D = {
   AXIOM(x) {
     return x;
   },
-
+ 
   PUMPE(x) {
     const sixCut = x / 6;
     const impulse = sixCut * 0.33;
