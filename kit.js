@@ -1,19 +1,6 @@
-// ======================================================
-// ULTRA-PORT — 6a6y6out IN/OUT
-// ======================================================
 const ULTRA_PORT = {
-
-  IN: {
-    ID: "ULTRA-6a6y6out",
-    MODE: "ULTRA-IN",
-    PORT: "BOOST-IN"
-  },
-
-  OUT: {
-    ID: "ULTRA-6a6y6out",
-    MODE: "ULTRA-OUT",
-    PORT: "BOOST-OUT"
-  },
+  IN: { ... },
+  OUT: { ... },
 
   flow(x){
     return {
