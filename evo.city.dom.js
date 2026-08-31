@@ -10,7 +10,7 @@ export function renderCityDOM(value = 1){
 
   const root = document.createElement("div");
   root.className = "city-root";
-
+ 
   root.innerHTML = `
     <h2>EVO City</h2>
     <p>Regen: ${data.regen.pulse}</p>
