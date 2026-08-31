@@ -1,46 +1,37 @@
 // ======================================================
-// PYRAMIDE.entkorrektor — iki1uc Final-Kernel
-// ORG / REORG / NC / PUMPE / PIPELINE / ENGINE
+// PYRAMIDE.new — iki1uc Final-Kernel
+// QUANT + RUN3 + PUMPE + PIPELINEBLITZ
 // ======================================================
+
+import { QUANT } from "./QUANT.js";
 
 export const PYRAMIDE = {
 
   // ----------------------------------------------
-  // 1) ORG — Rohachse
+  // 1) ORG — QUANT-ORG
   // ----------------------------------------------
   ORG(x) {
-    return x;
+    return QUANT.AXIOM(x);
   },
 
   // ----------------------------------------------
-  // 2) REORG — Regelachse
+  // 2) REORG — QUANT-REORG
   // ----------------------------------------------
   REORG(x) {
-    return x * 0.33;
+    return QUANT.PIPELINE(x).reorg;
   },
 
   // ----------------------------------------------
-  // 3) NC — Tiefenachse
+  // 3) NC — QUANT-NC
   // ----------------------------------------------
   NC(x) {
-    return x * 0.81;
+    return QUANT.PIPELINE(x).nc;
   },
 
   // ----------------------------------------------
-  // 4) PUMPE — Antrieb
+  // 4) RUN3 — ORG → REORG → NC
   // ----------------------------------------------
-  PUMPE(x) {
-    const sixCut = x / 6;
-    return {
-      sixCut,
-      impulse: sixCut * 0.33
-    };
-  },
-
-  // ----------------------------------------------
-  // 5) PIPELINE — ORG → REORG → NC
-  // ----------------------------------------------
-  PIPELINE(x) {
+  RUN3(x) {
     return {
       org: this.ORG(x),
       reorg: this.REORG(x),
@@ -49,27 +40,40 @@ export const PYRAMIDE = {
   },
 
   // ----------------------------------------------
-  // 6) RUN — 21 / 42 (Halb / Voll)
+  // 5) PUMPE — QUANT-PUMPE
   // ----------------------------------------------
-  RUN(x) {
+  PUMPE(x) {
+    return QUANT.PUMPE(x);
+  },
+
+  // ----------------------------------------------
+  // 6) PIPELINEBLITZ — ultraschneller Fluss
+  // ----------------------------------------------
+  PIPELINEBLITZ(x) {
+    const run = this.RUN3(x);
+    const pump = this.PUMPE(x);
+
     return {
-      half: {
-        energy: x * 0.5,
-        pipeline: x / 21,
-        pumpe: Math.sqrt(x),
-        nc: this.NC(x),
-        orbit: x * 0.33
-      },
-      full: {
-        energy: x,
-        pipeline: x / 42,
-        pumpe: Math.sqrt(x * 2),
-        nc: this.NC(x) * 2,
-        orbit: x * 0.66
-      }
+      raw: x,
+      org: run.org,
+      reorg: run.reorg,
+      nc: run.nc,
+      pumpe: pump,
+      impulse: pump.impulse,
+      sixCut: pump.sixCut
     };
   },
 
   // ----------------------------------------------
-  // 7) NCAXIOM — höchste Wahrheitsschicht
+  // 7) ENGINE — Vollumfang
   // ----------------------------------------------
+  ENGINE(x) {
+    return {
+      run3: this.RUN3(x),
+      pumpe: this.PUMPE(x),
+      pipe: this.PIPELINEBLITZ(x),
+      axis: "ORG-REORG-NC",
+      mode: "ENTKORREKTOR"
+    };
+  }
+};
