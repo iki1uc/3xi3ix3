@@ -1,5 +1,5 @@
 // ======================================================
-// golden6.js — vereint City, Ring, Markt, Work
+// golden6.js — NC-geführter runder goldener 6-Kern
 // ======================================================
 
 import { CITY } from "./city.js";
