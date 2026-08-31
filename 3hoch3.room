@@ -3,15 +3,40 @@
   "state": "ORG",
   "matrix": "3x3",
   "value": 27,
-  "energy": "6E",
-  "dimension": "6D",
-  "links": {
+
+  "energy": "6E",          // Impuls-Achse
+  "dimension": "6D",       // Raumkrümmung
+
+  "mass": {
+    "org": 27,             // ORG-Masse
+    "ultra": 81,           // ULTRA-Masse (Cluster)
+    "delta": 54            // Masse gegen Masse (Differenz)
+  },
+
+  "pump": {
+    "root": "sqrt(27)",    // Wurzel-Pumpe
+    "curve": "sin(27*0.33)",
+    "warp": "cos(27*0.66)",
+    "six": 162             // 27 * 6 (goldene 6)
+  },
+
+  "pipeline": {
     "root": "ULTRA-NC3x3.room",
     "tensor": "ULTRA-NC9x9.room",
-    "cluster": "81.room"
+    "cluster": "81.room",
+    "flow": "ORG -> NC -> ULTRA"
   },
-  "fallback": "6D",
-  "tmp": true,
+
+  "nc": {
+    "axis": "NC-ORG",
+    "depth": "T3",
+    "height": "H1",
+    "breadth": "B2"
+  },
+
   "sync": true,
-  "nc": "NC-ORG"
+  "tmp": true,
+  "fallback": "6D",
+
+  "kernel": "ORG-PUMP-PIPE-NC-ULTRA"
 }
