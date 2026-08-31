@@ -1,95 +1,28 @@
-// ======================================================
-// 6E6D.math — axiomAlgorithmisierte iki1uc-Version
-// ======================================================
-
 export const ENGINE_6E6D = {
 
-  // ------------------------------------------------------
-  // AXIOME — ORG / REORG / NC-ORG
-  // ------------------------------------------------------
-  axiom: {
-
-    ORG(x) {
-      return x; // volle Achse, keine Begrenzung
-    },
-
-    REORG(x) {
-      return Math.min(756, 200 + x * 0.1); // geregelte Achse
-    },
-
-    NCORG(x) {
-      return Math.min(1500, x); // Meta-Achse
-    }
+  AXIOM(x) {
+    return x;
   },
 
-  // ------------------------------------------------------
-  // NC-Command: 6D (Tiefen-Kernel)
-  // ------------------------------------------------------
+  PUMPE(x) {
+    const sixCut = x / 6;
+    const impulse = sixCut * 0.33;
+    return { sixCut, impulse };
+  },
+
+  PIPELINE(x) {
+    return {
+      raw: x,
+      org: x,
+      reorg: x * 0.33,
+      nc: x * 0.81
+    };
+  },
+
   NC(x) {
     return {
-      tag: "6D-NC",
-      depth: this.axiom.NCORG(x),
-      density: this.dichte(x),
-      slide: this.slide(x),
-      score: this.score(x),
-      axis: "NC-ORG",
-      frame: "NC"
-    };
-  },
-
-  // ------------------------------------------------------
-  // Dichte-Berechnung (NC-Feld)
-  // ------------------------------------------------------
-  dichte(x) {
-    return {
-      tag: "DICHTE",
-      value: x * 0.81,   // 81.room Bezug
-      stable: x > 9,
-      axis: "NC-ORG"
-    };
-  },
-
-  // ------------------------------------------------------
-  // Slide-Vektor (Bewegung)
-  // ------------------------------------------------------
-  slide(x) {
-    return {
-      tag: "SLIDE",
-      vec: {
-        x: x * 0.33,
-        y: x * 0.66,
-        z: x * 0.99
-      },
-      axis: "NC-ORG"
-    };
-  },
-
-  // ------------------------------------------------------
-  // Score-Bewertung (Stabilität)
-  // ------------------------------------------------------
-  score(x) {
-    const s = (x % 9) + (x % 7) + (x % 5);
-    return {
-      tag: "SCORE",
-      value: s,
-      verdict: s > 10 ? "ULTRA-STABIL" : "INSTABIL",
-      axis: "NC-ORG"
-    };
-  },
-
-  // ------------------------------------------------------
-  // Switch: 6E ↔ 6D (axiomatisch)
-  // ------------------------------------------------------
-  SWITCH(mode = "AUTO") {
-    return {
-      from: "6E",
-      to: "6D",
-      mode,
-      lock: true,       // verhindert Drift
-      tmp: true,        // stabilisiert NC
-      sync: true,       // 6E/6D synchron
-      axis: "NC-ORG",
-      frame: "SWITCH"
+      depth: x,
+      density: x * 0.81
     };
   }
 };
