@@ -1,27 +1,30 @@
-// SYN.js — reine Synchronisation
+// ======================================================
+// SYN.js — neue Synchronisation / Messung / Krümmung / Pumpe
+// ======================================================
 
+// 1) SYN — reine Flags
 export const SYN = {
   ALL: true,
   ULTRA: true,
   ENGINE: true,
   MATRIX: true,
-  ROTATION: true
+  ROTATION: true,
+  WURZEL: true,        // neue Achse
+  KRÜMMUNG: true,      // neue Achse
+  WAHRSCHEINLICHKEIT: true // goldene 6
 };
 
-// SYN‑Engine (Bindung ohne Zahlen)
+// 2) SYN‑Engine — jetzt mit echter Messlogik
 export const SYN_ENGINE = {
   MODE: "ULTRA-KERNEL",
   SWITCH: { from: "6E", to: "6D", time: 0 },
-  PREFETCH: { zoom: [1,3,6,9] },
-  SYNC: SYN.ALL
-};
 
-// SYN‑Pipeline (Bindung ohne Werte)
-export function synPipeline(tag) {
-  return {
-    tag,
-    sync: true,
-    engine: SYN_ENGINE.MODE,
-    switch: SYN_ENGINE.SWITCH
-  };
-}
+  // neue Messachsen
+  ROOT: x => Math.sqrt(x),          // Wurzel‑Pumpe
+  CURVE: x => Math.sin(x * 0.33),   // Krümmung
+  WARP: x => Math.cos(x * 0.66),    // Raumverzug
+
+  // goldene 6 — Wahrscheinlichkeitsachse
+  SIX: x => x * 6,
+
+  PREFETCH: { zoom: [1,3,6
