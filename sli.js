@@ -1,50 +1,24 @@
-// ------------------------------------------------------
-// 6) SLI-PORT — BOOST-IN / BOOST-OUT (NEU)
-// ------------------------------------------------------
-export const SLI_PORT = {
+// ======================================================
+// ALLROUNDER · AXIS-SCALE · x / y / z
+// ======================================================
+export const AXIS = {
 
-  IN: {
-    ID: "3x3x3",
-    MODE: "3x3x3",
-    PORT: "BOOST-IN"
+  base(){
+    return STATE.achsen;
   },
 
-  OUT: {
-    ID: "3x3x3",
-    MODE: "3x3x3",
-    PORT: "BOOST-OUT"
+  x(){
+    return Math.min(1500, this.base() * 0.15);
   },
 
-  flow(x) {
-    return {
-      id: this.IN.ID,
-      mode: this.IN.MODE,
- 
-      in: this.IN.PORT,
-      out: this.OUT.PORT,
+  y(){
+    return Math.min(1500, this.base() * 0.15);
+  },
 
-      // Verstärkerachsen
-      root: Math.sqrt(x),
-      curve: Math.sin(x * 0.33),
-      warp: Math.cos(x * 0.66),
-      nc: x * 0.81,
-      orbit: x * 0.33,
-      six: x * 6,
-      infinite: x * Infinity,
-
-      // 3x3x3 Engine
-      engine: {
-        h: x,
-        b: x * 2,
-        t: x * 3,
-        cube: (x * 3) ** 3
-      },
-
-      mode: "SLI-PORT",
-      axis: "ORG-REORG-NC"
-    };
+  z(){
+    return Math.min(1500, this.base() * 0.10);
   }
 };
-const sliRun3 = SLI_MASTER.ALL([
+export const sliRun3 = SLI_MASTER.ALL([
   { N:3, H:1, B:2, T:3 }
 ]);
