@@ -44,6 +44,16 @@ import { QUANT } from "./QUANT.js";
 import { QUO } from "./QUO.js";
 import { PYRAMIDE } from "./PYRAMIDE.js";
 import { renderOrbit, renderDevices } from "./sli.js";
+function loop(){
+  t += 0.01;
+
+  renderOrbit(t);
+  renderDevices(t);
+
+  requestAnimationFrame(loop);
+}
+
+loop();
 
 // ======================================================
 // ANIME-QUANT — echte Anime-Bilder aus /anime/
