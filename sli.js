@@ -88,3 +88,4 @@ export function renderDevices(ctx, STATE) {
   ctx.lineTo(450, baseY + 40);
   ctx.stroke();
 }
+export function resetKernel(STATE, AXIS, ULTRA_PORT) {
