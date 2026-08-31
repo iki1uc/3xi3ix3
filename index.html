@@ -43,6 +43,32 @@ import { SYN } from "./SYN.js";
 import { QUANT } from "./QUANT.js";
 import { QUO } from "./QUO.js";
 import { PYRAMIDE } from "./PYRAMIDE.js";
+// ======================================================
+// ANIME-QUANT — echte Anime-Bilder aus /anime/
+// ======================================================
+const ANIME_QUANT = {
+
+  frames: [
+    "./anime/PI.png",
+    "./anime/cube.png",
+    "./anime/i.doo.png",
+    "./anime/my.me.png"
+  ],
+
+  get(t){
+    const idx = Math.floor((t * 4) % this.frames.length);
+
+    const img = new Image();
+    img.src = this.frames[idx];
+
+    return {
+      img,
+      index: idx,
+      axis: "ANIME-QUANT",
+      mode: "ULTRA-ANIME"
+    };
+  }
+};
 
 // ======================================================
 // ANIME-QUANT — NEU
