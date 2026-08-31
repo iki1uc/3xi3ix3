@@ -1,7 +1,7 @@
 // ======================================================
 // ring.dom.js — Ring Visualisierung
 // ======================================================
-
+ 
 import { RING } from "./ring.js";
 
 export function renderRingDOM(axiom, pipe, value = 1){
