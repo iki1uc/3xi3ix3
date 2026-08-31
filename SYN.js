@@ -1,10 +1,8 @@
 // ======================================================
-// SYN.js — Imperium-SYN / Physik / Mathe / Antwortkernel
+// SYN.js — Imperium-SYN / Physik / Mathe / Synthese
 // ======================================================
 
-// --------------------------------------------------
-// 1) Flags — Imperium-Schalter
-// --------------------------------------------------
+// 1) Flags — reine Imperium-Schalter
 export const SYN = {
   ALL: true,
   ENGINE: true,
@@ -18,31 +16,27 @@ export const SYN = {
   ZOOM: true
 };
 
-// --------------------------------------------------
-// 2) Physik — echte mathematische Achsen
-// --------------------------------------------------
+// ------------------------------------------------------
+// 2) Physik + Mathe — echte Antworten im Code
+// ------------------------------------------------------
 export const SYN_PHYSIK = {
 
-  // Wurzel-Pumpe (Physik)
-  ROOT(x) {
-    return Math.sqrt(x);
-  },
+  // Geschwindigkeit (klassisch)
+  v: (s, t) => s / t,
 
-  // Krümmung (Geometrie)
-  CURVE(x) {
-    return Math.sin(x * 0.33);
-  },
+  // Beschleunigung
+  a: (v, t) => v / t,
 
-  // Raumverzug (Kosmologie)
-  WARP(x) {
-    return Math.cos(x * 0.66);
-  },
+  // Energie (klassisch)
+  E: m => m * 0.81, // Imperium-Energie = NC-Dichte
 
-  // Wahrscheinlichkeitsachse (goldene 6)
-  SIX(x) {
-    return x * 6;
-  },
+  // Wurzel-Pumpe (Mathe)
+  ROOT: x => Math.sqrt(x),
 
-  // Unendlichkeit (∞-Achse)
-  INFINITY(x) {
-    return
+  // Krümmung (Sinus)
+  CURVE: x => Math.sin(x * 0.33),
+
+  // Raumverzug (Cosinus)
+  WARP: x => Math.cos(x * 0.66),
+
+  // goldene 6 —
