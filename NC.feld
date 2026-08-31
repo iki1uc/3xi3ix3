@@ -1,5 +1,5 @@
 // ======================================================
-// NC.feld — iki1uc TRANSWARB-Relevanzfeld
+// NC.feld — iki1uc TRANSWARB-Relevanzfeld (ULTRA)
 // ======================================================
 
 export const NC_feld = {
@@ -13,28 +13,32 @@ export const NC_feld = {
       axis: "+Y",
       mode: "VERDICHTUNG",
       chain: [27, 81],
-      bind: "AIR"
+      bind: "AIR",
+      axisType: "NC-ORG"
     },
 
     SÜD: {
       axis: "-Y",
       mode: "ABLEITUNG",
       chain: [81, 27, 3],
-      bind: "6E6D"
+      bind: "6E6D",
+      axisType: "NC-ORG"
     },
 
     OST: {
       axis: "+X",
       mode: "EXPANSION",
       chain: [3, 9, 27],
-      bind: "XyX"
+      bind: "XyX",
+      axisType: "ORG"
     },
 
     WEST: {
       axis: "-X",
       mode: "KONTRAKTION",
       chain: [27, 9, 3],
-      bind: "AIV"
+      bind: "AIV",
+      axisType: "REORG"
     },
 
     PREFETCH: {
@@ -44,15 +48,20 @@ export const NC_feld = {
         [243, 729]
       ],
       sync: true,
-      mode: "ULTRA"
+      mode: "ULTRA",
+      axisType: "ORG-REORG-NC"
     }
   },
 
   // --------------------------------------------------
-  // 2) Ableitung 3e = XyX + AIR + AIV
+  // 2) Ableitung 3e = XyX + AIR + AIV (REORG)
   // --------------------------------------------------
   derive(XyX, AIR, AIV) {
-    return XyX + AIR + AIV;
+    return {
+      tag: "3e",
+      value: XyX + AIR + AIV,
+      axis: "REORG"
+    };
   },
 
   // --------------------------------------------------
@@ -64,17 +73,26 @@ export const NC_feld = {
       cube3: x ** 3,     // 27
       nc: 81,            // NC.feld
       expand: 81 * 3,    // 243
-      cube9: 9 ** 3      // 729
+      cube9: 9 ** 3,     // 729
+      axis: "NC-ORG"
     };
   },
 
   // --------------------------------------------------
-  // 4) NC.feld = 81 / 3e
+  // 4) NC.feld = 81 / 3e (NC-ORG)
   // --------------------------------------------------
   field(threeE) {
-    return 81 / threeE;
+    return {
+      tag: "NC.feld",
+      value: 81 / threeE,
+      axis: "NC-ORG"
+    };
   },
 
   // --------------------------------------------------
-  // 5) TRANSWARB — Beweisfeld
-  // ------------------------------------------------
+  // 5) TRANSWARB — Beweisfeld (ULTRA)
+  // --------------------------------------------------
+  TRANSWARB(x = 27) {
+
+    const chain = this.chain(x);
+    const threeE = this.derive(3, 9, 27).value;
