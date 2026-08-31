@@ -1,0 +1,16 @@
+export const QUANT_SYN = {
+  AXIOM(x) {
+    return x; // reine Synchronbasis
+  },
+  SYNC(x) {
+    return {
+      org: ULTRA.ORG(x),
+      reorg: ULTRA.REORG(x),
+      nc: ULTRA.NC(x)
+    };
+  },
+  VECTOR(x) {
+    const s = this.SYNC(x);
+    return [s.org, s.reorg, s.nc];
+  }
+};
