@@ -1,53 +1,50 @@
 // ======================================================
-// ULTRA — iki1uc / kohärent richtig / ORG-REORG-NC
+// ENTKORREKTOR.ULTRA — iki1uc Final-Kernel
 // ======================================================
 
 export const ULTRA = {
 
-  // --------------------------------------------------
-  // 1) AXIOME — ORG / REORG / NC-ORG
-  // --------------------------------------------------
-  AXIOM: {
-    ORG:  { from: "DA",  to: "U" },
-    REORG:{ from: "NE",  to: "U" },
-    NCORG:{ from: "BEN", to: "U" },
-    axis: "AXIOM"
+  // ----------------------------------------------
+  // 1) ORG — reine Achse
+  // ----------------------------------------------
+  ORG(x) {
+    return x;
   },
 
-  // --------------------------------------------------
-  // 2) ACHSEN — 9 / 18 / 27 (ORG)
-  // --------------------------------------------------
-  ACHSE: {
-    base: 9,
-    mid: 18,
-    full: 27,
-    sync: true,
-    axis: "ORG"
+  // ----------------------------------------------
+  // 2) REORG — geregelte Achse
+  // ----------------------------------------------
+  REORG(x) {
+    return x * 0.33;
   },
 
-  // --------------------------------------------------
-  // 3) VERDICHTUNG — 3xi3ix3 (REORG)
-  // --------------------------------------------------
-  VERDICHTUNG: {
-    code: "3xi3ix3",
-    depth: 27,
-    matrix: 81,
-    vector: 243,
-    axis: "REORG"
+  // ----------------------------------------------
+  // 3) NC — Tiefenachse
+  // ----------------------------------------------
+  NC(x) {
+    return x * 0.81;
   },
 
-  // --------------------------------------------------
-  // 4) 6E / 6D — Ableitung + Tiefen-Kernel (NC-ORG)
-  // --------------------------------------------------
-  ENGINE: {
-    "6E": { tag: "ABLEITUNG", optimize: true, axis: "NC-ORG" },
-    "6D": { tag: "TIEFEN-KERNEL", stabilize: true, axis: "NC-ORG" },
-    switch: {
-      from: "6E",
-      to: "6D",
-      mode: "ULTRA",
-      lock: true,
-      trace: false,
-      time: 0,
-      axis: "NC-ORG"
-    }
+  // ----------------------------------------------
+  // 4) PIPELINE — ORG → REORG → NC
+  // ----------------------------------------------
+  PIPELINE(x) {
+    return {
+      org: this.ORG(x),
+      reorg: this.REORG(x),
+      nc: this.NC(x)
+    };
+  },
+
+  // ----------------------------------------------
+  // 5) ENGINE — Vollumfang
+  // ----------------------------------------------
+  ENGINE(x) {
+    return {
+      axiom: this.ORG(x),
+      verdichtung: this.REORG(x),
+      tiefe: this.NC(x),
+      pipe: this.PIPELINE(x)
+    };
+  }
+};
