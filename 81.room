@@ -1,104 +1,53 @@
+// ======================================================
+// ULTRA — iki1uc / kohärent richtig / ORG-REORG-NC
+// ======================================================
+
 export const ULTRA = {
 
   // --------------------------------------------------
-  // 1) AXIOME — geordnet
+  // 1) AXIOME — ORG / REORG / NC-ORG
   // --------------------------------------------------
   AXIOM: {
-    1: { from: "DA",  to: "U" },
-    2: { from: "NE",  to: "U" },
-    3: { from: "BEN", to: "U" }
+    ORG:  { from: "DA",  to: "U" },
+    REORG:{ from: "NE",  to: "U" },
+    NCORG:{ from: "BEN", to: "U" },
+    axis: "AXIOM"
   },
 
   // --------------------------------------------------
-  // 2) ACHSEN — 9 / 18 / 27
+  // 2) ACHSEN — 9 / 18 / 27 (ORG)
   // --------------------------------------------------
   ACHSE: {
     base: 9,
     mid: 18,
     full: 27,
-    sync: true
+    sync: true,
+    axis: "ORG"
   },
 
   // --------------------------------------------------
-  // 3) VERDICHTUNG — 3xi3ix3
+  // 3) VERDICHTUNG — 3xi3ix3 (REORG)
   // --------------------------------------------------
   VERDICHTUNG: {
     code: "3xi3ix3",
     depth: 27,
     matrix: 81,
-    vector: 243
+    vector: 243,
+    axis: "REORG"
   },
 
   // --------------------------------------------------
-  // 4) 6E / 6D — Ableitung + Tiefen-Kernel
+  // 4) 6E / 6D — Ableitung + Tiefen-Kernel (NC-ORG)
   // --------------------------------------------------
   ENGINE: {
-    "6E": { tag: "ABLEITUNG", optimize: true },
-    "6D": { tag: "TIEFEN-KERNEL", stabilize: true },
+    "6E": { tag: "ABLEITUNG", optimize: true, axis: "NC-ORG" },
+    "6D": { tag: "TIEFEN-KERNEL", stabilize: true, axis: "NC-ORG" },
     switch: {
       from: "6E",
       to: "6D",
       mode: "ULTRA",
       lock: true,
       trace: false,
-      time: 0
+      time: 0,
+      axis: "NC-ORG"
     }
-  },
-
-  // --------------------------------------------------
-  // 5) KERNEL — Rotation + Vollkörper
-  // --------------------------------------------------
-  KERNEL: {
-    rotation: "KI-Kernel.me",
-    full: "KERNEL.me",
-    vector: "VECTOR.me"
-  },
-
-  // --------------------------------------------------
-  // 6) MATRIX — 9hoch9 / Vollmatrix
-  // --------------------------------------------------
-  MATRIX: {
-    bind: "9hoch9",
-    full: "9HOCH9",
-    validator: true
-  },
-
-  // --------------------------------------------------
-  // 7) SCORE — BEST / Verstärker / 100%
-  // --------------------------------------------------
-  SCORE: {
-    bind: "BEST",
-    boost: "Verstärker",
-    full: "100%",
-    active: true
-  },
-
-  // --------------------------------------------------
-  // 8) 213 — Prefetch / Vollkörper
-  // --------------------------------------------------
-  MODE_213: {
-    prefetch: true,
-    fullbody: true,
-    active: true
-  },
-
-  // --------------------------------------------------
-  // 9) 3xi3ix3 — Achsen-Kreuz / Raum-Scanner
-  // --------------------------------------------------
-  AXIS_CROSS: {
-    code: "3xi3ix3",
-    scanner: true,
-    depth: 27,
-    active: true
-  },
-
-  // --------------------------------------------------
-  // 10) SYNC — global
-  // --------------------------------------------------
-  SYNC: {
-    global: true,
-    matrix: true,
-    engine: true,
-    score: true
-  }
-};
