@@ -1,15 +1,15 @@
 const ANIME_QUANT = {
 
   frames: [
-    "img/anime01.png",
-    "img/anime02.png",
-    "img/anime03.png",
-    "img/anime04.png",
-    "img/anime05.png",
-    "img/anime06.png",
-    "img/anime07.png",
-    "img/anime08.png",
-    "img/anime09.png"
+    "anime/anime01.png",
+    "anime/anime02.png",
+    "anime/anime03.png",
+    "anime/anime04.png",
+    "anime/anime05.png",
+    "anime/anime06.png",
+    "anime/anime07.png",
+    "anime/anime08.png",
+    "anime/anime09.png"
   ],
 
   cache: [],
@@ -17,7 +17,6 @@ const ANIME_QUANT = {
   get(t){
     const idx = Math.floor((t * 10) % this.frames.length);
 
-    // Cache-Bild erzeugen, falls nicht vorhanden
     if (!this.cache[idx]) {
       const img = new Image();
       img.src = this.frames[idx];
