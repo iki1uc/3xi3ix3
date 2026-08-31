@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>3xi3ix3 · TECHNISCHE ENGINE / PX‑PC‑GHOST / ULTRA‑NC‑3×3</title>
+<title>3xi3ix3 · ULTRA-KERNEL · PX-PC-GHOST · 6a6y6out</title>
 
 <style>
 body { background:#000; color:#0f0; font-family:Consolas; padding:20px; }
@@ -15,14 +15,13 @@ canvas { background:#111; border:1px solid #333; margin-top:20px; }
 
 <body>
 
-<h1>3xi3ix3 · TECHNISCHE ENGINE</h1>
+<h1>3xi3ix3 · ULTRA-KERNEL</h1>
 
 <pre>
 CORE     = iki1uc
 AXES     = PX / PC / GHOST
-LAW      = 6D
-ENERGY   = 6E
-FORM     = Tri‑Hexa‑Orbit
+KERNEL   = ULTRA-6a6y6out
+ENGINE   = 3xi3ix3
 STATE    = ACTIVE
 READY    = 100%
 </pre>
@@ -33,85 +32,14 @@ READY    = 100%
 <h2>Tri‑Hexa‑Orbit Renderer</h2>
 <canvas id="orbitCanvas" width="500" height="500"></canvas>
 
-<script>
+<script type="module">
+
 // ======================================================
-// 3xi3ix3 ENGINE BASIS
+// MODULE IMPORTS — ALLES AUS DEM REPO LADEN
 // ======================================================
-const Engine = {
-
-  // PX / PC / GHOST – 3 Geräte
-  devices: ["PX","PC","GHOST"],
-
-  // ======================================================
-  // SLIDE – Achsenverschiebung
-  // ======================================================
-  slide(pos){
-    return {
-      vec:{
-        x: pos.x * 0.33,
-        y: pos.y * 0.66,
-        z: pos.z * 0.99
-      },
-      axis:"SLIDE"
-    };
-  },
-
-  // ======================================================
-  // WETTE – Stabilitätsbewertung
-  // ======================================================
-  wette(scene){
-    const score =
-      (scene.atom.length % 9) +
-      (scene.qsxi.tokio.x % 7) +
-      (scene.singular.radius % 5);
-
-    return {
-      score,
-      verdict: score > 10 ? "ULTRA‑STABIL" : "INSTABIL",
-      axis:"WETTE"
-    };
-  },
-
-  // ======================================================
-  // PX‑Modul
-  // ======================================================
-  PX(frame){
-    return {
-      axis:"PX",
-      code: frame.pxCode,
-      impulse:"PX‑ROOT",
-      state:"ACTIVE"
-    };
-  },
-
-  // ======================================================
-  // PC‑Modul
-  // ======================================================
-  PC(frame){
-    return {
-      axis:"PC",
-      code:"PC‑LAYER",
-      impulse:"PC‑CORE",
-      state:"ACTIVE"
-    };
-  },
-
-  // ======================================================
-  // GHOST‑Modul
-  // ======================================================
-  GHOST(frame){
-    return {
-      axis:"GHOST",
-      code:"GHOST‑HELP‑7",
-      impulse:"ARG‑XARG‑ARG3te",
-      state:"ACTIVE"
-    };
-  },
-
-  // ======================================================
-  // QUANT‑Ebene
-  // ======================================================
-  quant(t){
-    const seq = ["⚛","✦","✧","✩","✪","✫","✬","✭","✮"];
-    return {
-      atom: seq[Math.floor((t*10) % seq
+import { KIT } from "./kit.js";
+import { SLI_CORE } from "./SLI-CORE.js";
+import { SLI_MASTER } from "./sli.js";
+import { QUANT } from "./QUANT.js";
+import { QUO } from "./QUO.js";
+import {
