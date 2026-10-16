@@ -1,0 +1,29 @@
+<!-- new show = anime.show.html = 1 Respo zum Patch dispatchen = zeigt Fotos ohne was zu ändern -->
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>iki1uc · anime show · 9e</title>
+<style>
+  body{background:#05070e;color:#c0d0d0;font-family:Consolas;padding:16px}
+  h1{font-size:16px;letter-spacing:3px;color:#ffd700}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:900px}
+  img{width:100%;border-radius:12px;border:1px solid rgba(255,215,0,0.1);background:#0a0a12}
+  .label{font-size:9px;color:#5a7a6a;text-align:center;margin-top:4px}
+</style>
+</head>
+<body>
+<h1>🌀 ANIME SHOW · 3 die 3 die 3 = 9e · ohne was ändern</h1>
+<div class="grid" id="grid"></div>
+<script>
+const base = "https://raw.githubusercontent.com/iki1uc/3xi3ix3/main/anime/";
+const files = ["anime01.png","anime02.png","anime03.png","anime04.png","anime05.png","anime06.png","anime07.png","anime08.png","anime09.png","qAnime.img"];
+const grid = document.getElementById('grid');
+files.forEach(f=>{
+  const wrap = document.createElement('div');
+  wrap.innerHTML = `<img src="${base+f}" loading="lazy" onerror="this.style.display='none'"><div class="label">${f} · ${(f.includes('01')?'tion=3=warb':f.includes('02')?'sa=9=kanal':f.includes('03')?'sen=27':f.includes('09')?'hy=729=alles umfassend':'9e')})</div>`;
+  grid.appendChild(wrap);
+});
+</script>
+</body>
+</html>
