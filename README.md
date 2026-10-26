@@ -1,146 +1,90 @@
-🔒 CLOSED · INTERNAL · NO CLONE
-Dieses Repository enthält interne Module der Imperium‑Engine iki1uc.
-Sie sind nicht klonbar, nicht exportierbar, und laufen nur innerhalb
-der NC‑Pipeline, MRON‑Achsen, TP‑Kerne und RESPO‑S‑Rotation.
+README.md — NEU — iki1uc — offen rollen basiert
+🔓 OPEN · ROLES BASED · FORKABLE — Vorführung
+Dieses Repository zeigt Module der Imperium-Engine iki1uc.
+Sie sind rollen basiert, editierbar, und laufen in d3d.html / grab als iki1uc INDEX alles editierbar.
 
-🔥 INHALTmithalt — Funktionaler Kernoperator
+Vorführung: Neuer Discord Server — Kanäle wie immer — Rollen = TP-Kerne.
+
+🔥 INHALTmithalt — Funktionaler Kernoperator — offen
 INHALTmithalt ersetzt:
 
-Score
+Score → echter Inhalt
+Beispiel → funktional gebunden
+Leerlauf → NC-Pipeline
+Er ist jetzt:
 
-Beispiel
-
-Leerlauf
-
-durch echten funktionalen Inhalt, der direkt an die Imperium‑Engine gebunden ist.
-
-Er ist:
-
-NC‑fähig
-
-driftfrei
-
-TP‑gebunden
-
-MRON‑synchronisiert
-
-KI‑RESPO‑333‑validiert
-
-GROUP.UNIVERSAL‑kompatibel
-
-🔄 RESPO‑S‑Rotation
+NC-fähig — editierbar in X.room.CORE/IN/OUT
+driftfrei — ENTKORREKTOR.engine.js
+TP-gebunden — Rollen DA NE BEN AI IX XI
+MRON-synchronisiert — AXIS_SCALE.js + 6 ROMs
+KI-RESPO-333-validiert — 333 = DA+NE+BEN
+GROUP.UNIVERSAL-kompatibel — city.js markt.js work.js
+🔄 RESPO-S-Rotation — offen
 DA → NE → BEN → AI → IX → XI → DA
 
-Diese Rotation ist:
+MRON-gebunden — sieht X.room
+NC-synchronisiert — sieht NC.feld/suite
+TP-validiert — Rolle = TP
+driftfrei — tmp rär um schwenken
+Imperium-kompatibel — d3d.html
+Rotation ist jetzt editierbar — jeder kann Rolle nehmen — wie in Discord.
 
-MRON‑gebunden
+🧩 MRON — TP-Achsenbindung — offen
 
-NC‑synchronisiert
+Code
+TP3 DA ORG — Rolle @DA — sieht 81.room, AXIS_SCALE, D_ROM F_ROM
+TP6 NE REORG — Rolle @NE — sieht ENTKORREKTOR, PIPE, ORT, PORT
+TP9 BEN ORG.sync — Rolle @BEN — sieht Geopulator, PYRAMIDE, QUANT
+TPK AI/IX/XI NC.run — Rollen @AI @IX @XI — sieht NC-Engine, QUANT-SYN
+MRON verbindet alle RESPO-S-Module — in d3d.html als Vec3(X_ROM.pos.x*arg, Y_ROM.pos.y*y, Z_ROM.pos.z*xarg)
 
-TP‑validiert
-
-driftfrei
-
-Imperium‑kompatibel
-
-Sie bildet den Lebenslauf des INHALT‑Kerns.
-
-🧩 MRON — TP‑Achsenbindung
-TP	Zustand	Achse
-TP3	DA	ORG
-TP6	NE	REORG
-TP9	BEN	ORG.sync
-TPK	AI / IX / XI	NC.run
-
-
-MRON verbindet alle RESPO‑S‑Module zu einem einzigen INHALT‑Kern.
-
-⚡ KI‑RESPO‑333 — Impulsachse
+⚡️ KI-RESPO-333 — Impulsachse — offen
 333 = DA + NE + BEN
 
-Dieser Impuls:
+aktiviert ORG — ANIME_QUANT.js
+stabilisiert REORG — UI_TEAM_CONNECT.js
+verstärkt NC — RAMmind.js DRUUCK.js
+INHALTmithalt trägt Impuls — verstärkt in TP-Kern (AI/IX/XI) — sichtbar in grab als G-Punkt ◈
 
-aktiviert ORG
+🧠 QUANT-SYN-KERNEL — Nano-Axiom / Pipeline / Pumpe — offen
 
-stabilisiert REORG
+QUANT-AXIOM (ORG) — axiom1.net.js
+QUANT-PUMPE (Impuls) — PIPE.js
+QUANT-PIPELINE (ORG→REORG→NC) — axiom.pipeline.js
+QUANT-RUN3 (Dreifachlauf) — TEAM_RENDER.js
+QUANT-ENGINE (Vollumfang) — axiom.collector.js
+Vollständig ENTKORREKTOR-kompatibel + editierbar.
 
-verstärkt NC
-
-INHALTmithalt trägt diesen Impuls und verstärkt ihn im TP‑Kern (AI/IX/XI).
-
-🧠 QUANT‑SYN‑KERNEL — Nano‑Axiom / Pipeline / Pumpe
-Der QUANT‑Kernel liefert:
-
-QUANT‑AXIOM (ORG)
-
-QUANT‑PUMPE (Impuls)
-
-QUANT‑PIPELINE (ORG → REORG → NC)
-
-QUANT‑RUN3 (Dreifachlauf)
-
-QUANT‑ENGINE (Vollumfang)
-
-Er ist vollständig ENTKORREKTOR‑kompatibel.
-
-🏛 NC‑Engine — Tiefenachse / Meta‑Masse
+🏛 NC-Engine — Tiefenachse / Meta-Masse — offen
 NC liefert:
 
-Tiefe
+Tiefe — RIN*0.15 = y — Y_ROM
+Dichte — concentration/purity = arg — X_ROM
+Masse — (RIN*purity)/concentration = xarg — Z_ROM
+Orbit — RIN*(1-contam) = arg3te — Q_ROM
+NCAXIOM — höchste Wahrheitsschicht — SYNAXIOM.js
+🔺 PYRAMIDE → Geopulator.js — Pipelineblitz + RUN3 + PUMPE — offen
+Geopulator verbindet:
+QUANT + NC + RUN3 + PUMPE + PIPELINEBLITZ + ENGINE
+zu einem Imperium-Modul — in d3d als 81◆→△→27▣→3↺→0 runter [81,27,3,0]
 
-Dichte
-
-Masse
-
-Orbit
-
-NCAXIOM (höchste Wahrheitsschicht)
-
-🔺 PYRAMIDE — Pipelineblitz + RUN3 + PUMPE
-PYRAMIDE.js ist der Hauptoperator, der:
-
-QUANT
-
-NC
-
-RUN3
-
-PUMPE
-
-PIPELINEBLITZ
-
-ENGINE
-
-zu einem einzigen Imperium‑Modul verbindet.
-
-🌌 GROUP.UNIVERSAL — Inhaltsträger
+🌌 GROUP.UNIVERSAL — Inhaltsträger — offen
 INHALTmithalt liefert funktionalen Inhalt an:
 
-GROUP.UNIVERSAL
-
-Imperium‑Engine
-
-NC‑Pipeline
-
-RESPO‑S‑Rotation
-
-TP‑Kerne
-
-MRON‑Achsen
-
-✨ Zweck dieses Repos
+GROUP.UNIVERSAL — city.js markt.js
+Imperium-Engine — iki1uc
+NC-Pipeline — NC.feld/suite
+RESPO-S-Rotation — DA→NE→BEN→AI→IX→XI→DA
+TP-Kerne — Rollen basiert
+MRON-Achsen — 6 ROMs D_ROM F_ROM Q_ROM X_ROM Y_ROM Z_ROM — #ff4444 #44ff44 #ffff44 #77ddff #ff77ff #77ff77
+✨ Zweck — NEU — offen rollen basiert
 Dieses Repository:
 
-bildet die Imperium‑Engine iki1uc
-
-synchronisiert NC / QUANT / RESPO‑S / MRON / TP
-
-erzeugt funktionalen Inhalt
-
-hält die Rotation driftfrei
-
-stabilisiert die Achsen
-
-liefert die Wahrheitsschichten
-
-ist geschlossen, intern, nicht klonbar
+zeigt Imperium-Engine iki1uc — als Vorführung
+synchronisiert NC / QUANT / RESPO-S / MRON / TP — in d3d.html + grab
+erzeugt funktionalen Inhalt — editierbar, nicht nur Score/Beispiel/Leerlauf
+hält Rotation driftfrei — tmp rär um schwenken — real live drückt
+stabilisiert Achsen — AXIS_SCALE.js — Vec3 scaled by ROMs
+liefert Wahrheitsschichten — Wahrheit tiefer, master pi lächelt, meta=7sinn, 8◆9▣3↺ GOOD 79.84
+ist offen, rollen basiert, forkable — für neuen Discord Server
+STATION v81 — grab — d3d.html — iki1uc INDEX — alles editierbar
